@@ -32,7 +32,6 @@ Warrior::Warrior(string name) : Character::Character(name){
 	health = 400;
 	gold = 500;
 	criticalPoint = 20;
-	items.push_back("potion");
 }
 
 Wizard::Wizard(string name) : Character::Character(name){
@@ -40,7 +39,6 @@ Wizard::Wizard(string name) : Character::Character(name){
 	health = 200;
 	gold = 500;
 	criticalPoint = 12;
-	items.push_back("potion");
 }
 
 Looter::Looter(string name) : Character::Character(name){
@@ -48,7 +46,6 @@ Looter::Looter(string name) : Character::Character(name){
 	health = 200;
 	gold = 1000;
 	criticalPoint = 16;
-	items.push_back("potion");
 }
 
 Character::~Character(){
@@ -111,10 +108,22 @@ void Character::addPotion(){
 	items.push_back("potion");
 }
 
+void Character::addStrongPotion(){
+	items.push_back("strong potion");
+}
+
+void Character::addPowerPotion(){
+	items.push_back("power potion");
+}
+
+void Character::addMaxPotion(){
+	items.push_back("max potion");
+}
+
 void Character::inventory(){
 	cout << "================================================================================" << endl;
-	for(int i = 0; i <= items.size(); i++)
-		cout << "\"" << items[i] << "\" ";
+	for(vector<string>::const_iterator i = items.begin(); i != items.end(); ++i)
+		cout << "\"" << *i << "\" ";
 	cout << endl;
 	cout << "================================================================================" << endl;
 }

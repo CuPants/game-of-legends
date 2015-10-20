@@ -41,6 +41,9 @@ public:
 	//other functions
 	int primaryAttack();
 	void addPotion();
+	void addStrongPotion();
+	void addPowerPotion();
+	void addMaxPotion();
 	void inventory();
 };
 

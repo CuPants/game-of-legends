@@ -7,7 +7,7 @@
 //==============================================================================
 
 #include <iostream>
-#include <unistd.h>
+//#include <unistd.h>
 #include "Character.h"
 
 using namespace std;
@@ -153,6 +153,9 @@ int main(){
 
     //testing methods
     character->addPotion();
+    character->addStrongPotion();
+    character->addPowerPotion();
+    character->addMaxPotion();
     character->inventory();
     character->primaryAttack();
 
