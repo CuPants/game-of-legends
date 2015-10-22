@@ -104,26 +104,81 @@ int Character::primaryAttack(){
     }
 }
 
-void Character::addPotion(){
-	items.push_back("potion");
+void Character::addItem(string item){
+	items.push_back(item);
 }
 
-void Character::addStrongPotion(){
-	items.push_back("strong potion");
-}
-
-void Character::addPowerPotion(){
-	items.push_back("power potion");
-}
-
-void Character::addMaxPotion(){
-	items.push_back("max potion");
+void Character::setShop(){
+	//shopItems = {"potion", "strong potion", "power potion", "max potion", "revive"};
+	shopItems.push_back("potion");
+	shopItems.push_back("strong-potion");
+	shopItems.push_back("power-potion");
+	shopItems.push_back("max-potion");
+	shopItems.push_back("revive");
+	//shopPrices = {200, 400, 800, 2000, 5000};
+	shopPrices.push_back(200);
+	shopPrices.push_back(400);
+	shopPrices.push_back(800);
+	shopPrices.push_back(1600);
+	shopPrices.push_back(3200);
 }
 
 void Character::inventory(){
+	cout << "                                   INVENTORY                                    " << endl;
 	cout << "================================================================================" << endl;
-	for(vector<string>::const_iterator i = items.begin(); i != items.end(); ++i)
+	for(vector<string>::const_iterator i = items.begin(); i != items.end(); i++)
 		cout << "\"" << *i << "\" ";
 	cout << endl;
 	cout << "================================================================================" << endl;
+}
+
+void Character::shop(){
+	string choice;
+	bool check;
+	int count;
+	int price;
+	cout << "                              WELCOME TO THE SHOP                               " << endl;
+	do{
+		cout << "================================================================================" << endl;
+		for(int i = 0; i != shopItems.size(); i++)
+			cout << "\"" << shopItems[i] << "\" x" << shopPrices[i] << " gold\t";
+		cout << endl;
+		cout << "================================================================================" << endl << endl;
+
+		cout << "What would you like to purchase? Or you may \"leave\"." << endl;
+		cout << name << ": ";
+		cin >> choice;
+		for(int i = 0; i != shopItems.size(); i++){
+			if(shopItems[i] == choice){
+				check = true;
+				price = shopPrices[i];
+			}
+		}
+		if(choice == "leave"){
+
+		}
+		else if(check){
+			check = false;
+			cout << "How many would you like? \"1\", \"2\", \"3\",...\"99\"" << endl;
+			cout << name << ": ";
+			cin >> count;
+			for(int i = 1; i <= 99; i++){
+				if(count == i)
+					check = true;
+			}
+			if(check){
+				if(price * count > gold)
+					cout << "You don't have enough gold!" << endl << endl;
+				else{
+					Character::addItem(choice);
+					gold -= count * price;
+					cout << "Here you go, " << count << " " << choice << "[s]. What else would you like?" << endl << endl;
+				}
+			}
+			else
+				cout << "I'm sorry, that's not an option." << endl << endl;
+		}
+		else
+			cout << "I'm sorry, that isn't an option." << endl << endl;
+	}while(choice != "leave");
 }

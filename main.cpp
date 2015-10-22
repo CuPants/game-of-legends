@@ -8,6 +8,7 @@
 
 #include <iostream>
 //#include <unistd.h>
+//usleep(1000000);
 #include "Character.h"
 
 using namespace std;
@@ -27,8 +28,6 @@ int main(){
     cout << "                                Land of Lerocia                                 " << endl;
     printLine();
     cout << endl;
-
-    //usleep(2500000);
 
     cout << "Welcome to Game of Legends - Land of Lerocia, please enter your name." << endl << endl;
 
@@ -59,17 +58,10 @@ int main(){
     }while(true);
 
     cout << "Hello " << name << ", and welcome to the Land of Lerocia!" << endl << endl;
-
-    //usleep(1500000);
-
     cout << "This is a text-based game in which you will fight enemies in turn-based \nbattles, collect items and weapons, and build up your character." << endl << endl;
-
-    //usleep(5000000);
 
     do{
         cout << "To perform an action, you must type one of the commands marked in quotations." << endl << endl;
-
-        //usleep(2000000);
 
         cout << "\"continue\"" << endl << endl;
 
@@ -80,34 +72,20 @@ int main(){
 
     //list character types
     cout << "Very good! Now let's get started." << endl << endl;
-
-    //usleep(1500000);
-
     cout << "First things first, you have to choose your character." << endl;
-
-    //usleep(2000000);
-
     cout << "Each has different attributes and you will be this character for the rest of \nthe game. So choose wisely." << endl << endl;
-
-    //usleep(3500000);
 
     cout << "WARRIOR:" << endl;
     cout << "The warrior is a physical fighter. His stats allow you to have extra max health \nthan the other characters." << endl;
     cout << "He has the lowest chance to miss, but also a lower critical hit rate." << endl << endl;
 
-    //usleep(5000000);
-
     cout << "WIZARD:" << endl;
     cout << "The wizard attacks using spells. His arsenal also allows the player to heal \nthemselves during battle." << endl;
     cout << "He has the highest chance to miss, but also has the highest critical hit rate" << endl << endl;
 
-    //usleep(5000000);
-
     cout << "LOOTER:" << endl;
     cout << "The looter is a physical fighter. His abilities allow you more gold and a much \nbetter chance of loot per battle." << endl;
     cout << "He has an equal miss and critical hit rate." << endl << endl;
-
-    //usleep(5000000);
 
     printLine();
     cout << "             \"warrior\"           \"wizard\"           \"looter\"              " << endl;
@@ -152,12 +130,11 @@ int main(){
     cout << "Let your journey begin!" << endl << endl;
 
     //testing methods
-    character->addPotion();
-    character->addStrongPotion();
-    character->addPowerPotion();
-    character->addMaxPotion();
+    character->addItem("potion");
     character->inventory();
     character->primaryAttack();
+    character->setShop();
+    character->shop();
 
     return 0;
 }

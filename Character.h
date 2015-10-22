@@ -21,6 +21,8 @@ protected:
 	int gold;
 	int criticalPoint;
 	std::vector<string> items;
+	std::vector<string> shopItems;
+	std::vector<int> shopPrices;
 public:
 	//default constructor
 	Character();
@@ -34,17 +36,16 @@ public:
 	int getHealth() const;
 	int getGold() const;
 	//mutator functions
+	void setShop();
 	void setName(string);
 	void setLevel(int);
 	void setHealth(int);
 	void setGold(int);
-	//other functions
+	//action functions
 	int primaryAttack();
-	void addPotion();
-	void addStrongPotion();
-	void addPowerPotion();
-	void addMaxPotion();
+	void addItem(string item);
 	void inventory();
+	void shop();
 };
 
 class Warrior: public Character{
