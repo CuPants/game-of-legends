@@ -16,9 +16,11 @@ using namespace std;
 class Character{
 protected:
 	string name;
+	string characterType;
 	int level;
 	int health;
 	int gold;
+	bool alive;
 	int criticalPoint;
 	std::vector<string> items;
 	std::vector<string> shopItems;
@@ -26,8 +28,8 @@ protected:
 public:
 	//default constructor
 	Character();
-	//overload constructor 
-	Character(string);
+	//overload constructor
+	Character(string, string);
 	//destructor
 	~Character();
 	//accessor functions
@@ -35,32 +37,35 @@ public:
 	int getLevel() const;
 	int getHealth() const;
 	int getGold() const;
+	bool getAlive() const;
 	//mutator functions
-	void setShop();
 	void setName(string);
 	void setLevel(int);
 	void setHealth(int);
 	void setGold(int);
+	void setAlive(bool);
 	//action functions
+	void printStats();
 	int primaryAttack();
 	void addItem(string item);
 	void inventory();
+	void setShop();
 	void shop();
 };
 
 class Warrior: public Character{
 public:
-	Warrior(string name);
+	Warrior(string name, string characterType);
 };
 
 class Wizard: public Character{
 public:
-	Wizard(string name);
+	Wizard(string name, string characterType);
 };
 
 class Looter: public Character{
 public:
-	Looter(string name);
+	Looter(string name, string characterType);
 };
 
 #endif //CHARACTER_H

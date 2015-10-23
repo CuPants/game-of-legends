@@ -1,5 +1,5 @@
 //============================================================================== 
-// File name    : main.cpp
+// File name    : Character.cpp
 // Author       : Jeffrey Thor
 // Date         : 10/12/2015
 // Description  : Character Class - Game Of Legends
@@ -17,34 +17,43 @@ using namespace std;
 
 Character::Character(){
 	name = "";
+	characterType = "";
 	level = 0;
 	health = 0;
 	gold = 0;
+	alive = false;
 	srand(time(0));
 }
 
-Character::Character(string newName){
+Character::Character(string newName, string newCharacterType){
 	name = newName;
+	characterType = newCharacterType;
 }
 
-Warrior::Warrior(string name) : Character::Character(name){
+Warrior::Warrior(string name, string characterType) : Character::Character(name, characterType){
+	characterType = "warrior";
 	level = 1;
 	health = 400;
 	gold = 500;
+	alive = true;
 	criticalPoint = 20;
 }
 
-Wizard::Wizard(string name) : Character::Character(name){
+Wizard::Wizard(string name, string characterType) : Character::Character(name, characterType){
+	characterType = "wizard";
 	level = 1;
 	health = 200;
 	gold = 500;
+	alive = true;
 	criticalPoint = 12;
 }
 
-Looter::Looter(string name) : Character::Character(name){
+Looter::Looter(string name, string characterType) : Character::Character(name, characterType){
+	characterType = "looter";
 	level = 1;
 	health = 200;
 	gold = 1000;
+	alive = true;
 	criticalPoint = 16;
 }
 
@@ -68,6 +77,10 @@ int Character::getGold() const{
 	return gold;
 }
 
+bool Character::getAlive() const{
+	return alive;
+}
+
 void Character::setName(string newName){
 	name = newName;
 }
@@ -82,6 +95,16 @@ void Character::setHealth(int newHealth){
 
 void Character::setGold(int newGold){
 	gold = newGold;
+}
+
+void Character::setAlive(bool newAlive){
+	alive = newAlive;
+}
+
+void Character::printStats(){
+	cout << "================================================================================" << endl;
+	cout << "NAME: " << name << " CHARACTER: " << characterType << " LEVEL: " << level << " HEALTH: " << health << " GOLD: " << gold << " ALIVE: " << boolalpha << alive << endl;
+	cout << "================================================================================" << endl << endl;
 }
 
 int Character::primaryAttack(){
@@ -108,28 +131,20 @@ void Character::addItem(string item){
 	items.push_back(item);
 }
 
-void Character::setShop(){
-	//shopItems = {"potion", "strong potion", "power potion", "max potion", "revive"};
-	shopItems.push_back("potion");
-	shopItems.push_back("strong-potion");
-	shopItems.push_back("power-potion");
-	shopItems.push_back("max-potion");
-	shopItems.push_back("revive");
-	//shopPrices = {200, 400, 800, 2000, 5000};
-	shopPrices.push_back(200);
-	shopPrices.push_back(400);
-	shopPrices.push_back(800);
-	shopPrices.push_back(1600);
-	shopPrices.push_back(3200);
-}
-
 void Character::inventory(){
 	cout << "                                   INVENTORY                                    " << endl;
 	cout << "================================================================================" << endl;
 	for(vector<string>::const_iterator i = items.begin(); i != items.end(); i++)
 		cout << "\"" << *i << "\" ";
 	cout << endl;
-	cout << "================================================================================" << endl;
+	cout << "================================================================================" << endl << endl;
+}
+
+void Character::setShop(){
+	string tempItems [5] = {"potion", "strong potion", "power potion", "max potion", "revive"};
+	shopItems.insert(shopItems.end(), tempItems, tempItems+5);
+	int tempPrices [5] = {200, 400, 800, 2000, 5000};
+	shopPrices.insert(shopPrices.end(), tempPrices, tempPrices+5);
 }
 
 void Character::shop(){
@@ -145,7 +160,7 @@ void Character::shop(){
 		cout << endl;
 		cout << "================================================================================" << endl << endl;
 
-		cout << "What would you like to purchase? Or you may \"leave\"." << endl;
+		cout << "What would you like to purchase? Or you may \"leave\"." << endl << endl;
 		cout << name << ": ";
 		cin >> choice;
 		for(int i = 0; i != shopItems.size(); i++){

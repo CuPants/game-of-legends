@@ -10,6 +10,7 @@
 //#include <unistd.h>
 //usleep(1000000);
 #include "Character.h"
+#include "Village.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ int main(){
     //variable declarations
     string choice, name, characterType;
     Character *character;
+    Village *village;
     //introductory banner
     printLine();
     cout << "                                GAME OF LEGENDS                                 " << endl;
@@ -98,21 +100,24 @@ int main(){
         cout << endl;
 
         if(characterType == "warrior"){
-        	Warrior myWarrior(name);
+        	Warrior myWarrior(name, characterType);
         	character = &myWarrior;
         }
         else if(characterType == "wizard"){
-        	Wizard myWizard(name);
+        	Wizard myWizard(name, characterType);
         	character = &myWizard;
         }
         else if(characterType == "looter"){
-        	Looter myLooter(name);
+        	Looter myLooter(name, characterType);
         	character = &myLooter;
         }
         else{
             error();
             continue;
         }
+
+        character->printStats();
+
         do{
             cout << "So you want to be a " << characterType << "? \"yes\" or \"no\"" << endl << endl;
             cout << name << ": ";
@@ -129,12 +134,11 @@ int main(){
 
     cout << "Let your journey begin!" << endl << endl;
 
-    //testing methods
-    character->addItem("potion");
-    character->inventory();
-    character->primaryAttack();
-    character->setShop();
-    character->shop();
+    Village myVillage;
+    village = &myVillage;
+
+    village->setLocations();
+    village->printLocations();
 
     return 0;
 }
