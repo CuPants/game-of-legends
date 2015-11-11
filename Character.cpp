@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <vector>
+#include <fstream>
 #include "Character.h"
 
 using namespace std;
@@ -34,6 +35,7 @@ Warrior::Warrior(string name, string characterType) : Character::Character(name,
 	characterType = "warrior";
 	level = 1;
 	health = 400;
+	maxHealth = 400;
 	gold = 500;
 	alive = true;
 	criticalPoint = 20;
@@ -43,6 +45,7 @@ Wizard::Wizard(string name, string characterType) : Character::Character(name, c
 	characterType = "wizard";
 	level = 1;
 	health = 200;
+	maxHealth = 200;
 	gold = 500;
 	alive = true;
 	criticalPoint = 12;
@@ -52,6 +55,7 @@ Looter::Looter(string name, string characterType) : Character::Character(name, c
 	characterType = "looter";
 	level = 1;
 	health = 200;
+	maxHealth = 200;
 	gold = 1000;
 	alive = true;
 	criticalPoint = 16;
@@ -65,12 +69,20 @@ string Character::getName() const{
 	return name;
 }
 
+string Character::getCharacterType() const{
+	return characterType;
+}
+
 int Character::getLevel() const{
 	return level;
 }
 
 int Character::getHealth() const{
 	return health;
+}
+
+int Character::getMaxHealth() const{
+	return maxHealth;
 }
 
 int Character::getGold() const{
@@ -81,24 +93,62 @@ bool Character::getAlive() const{
 	return alive;
 }
 
-void Character::setName(string newName){
-	name = newName;
+void Character::setStats(string characterType, string name, int level, int health, int maxHealth, int gold, bool alive){
+	this->characterType = characterType;
+	this->name = name;
+	this->level = level;
+	this->health = health;
+	this->maxHealth = maxHealth;
+	this->gold = gold;
+	this->alive = alive;
 }
 
-void Character::setLevel(int newLevel){
-	level = newLevel;
+void Character::setCharacterType(string characterType){
+	this->characterType = characterType;
 }
 
-void Character::setHealth(int newHealth){
-	health = newHealth;
+void Character::setName(string name){
+	this->name = name;
 }
 
-void Character::setGold(int newGold){
-	gold = newGold;
+void Character::setLevel(int level){
+	this->level = level;
 }
 
-void Character::setAlive(bool newAlive){
-	alive = newAlive;
+void Character::setHealth(int health){
+	this->health = health;
+}
+
+void Character::setMaxHealth(int maxHealth){
+	this->maxHealth = maxHealth;
+}
+
+void Character::setGold(int gold){
+	this->gold = gold;
+}
+
+void Character::setAlive(bool alive){
+	this->alive = alive;
+}
+
+void Character::saveState(string saves){
+	ofstream fileOut;
+	fileOut.open(saves.c_str());
+	cout << items.size() << endl;
+	fileOut << characterType << endl;
+    fileOut << name << endl;
+    fileOut << level << endl;
+    fileOut << health << endl;
+    fileOut << maxHealth << endl;
+    fileOut << gold << endl;
+    fileOut << alive << endl;
+	for(int i = 0; i < items.size(); i++){
+		fileOut << items[i];
+		if(i < items.size()-1){
+			fileOut << endl;
+		}
+	}
+	fileOut.close();
 }
 
 void Character::printStats(){
@@ -131,17 +181,45 @@ void Character::addItem(string item){
 	items.push_back(item);
 }
 
+void Character::useItem(string item){
+
+}
+
 void Character::inventory(){
+	string choice;
+	string check;
 	cout << "                                   INVENTORY                                    " << endl;
 	cout << "================================================================================" << endl;
 	for(vector<string>::const_iterator i = items.begin(); i != items.end(); i++)
 		cout << "\"" << *i << "\" ";
 	cout << endl;
 	cout << "================================================================================" << endl << endl;
+	cout << "What would you like to use? Or you may \"exit\"" << endl << endl;
+	cout << name << ": ";
+	cin >> choice;
+	for(int i = 0; i != items.size(); i++){
+		if(items[i] == choice){
+			cout << "So you would like to use 1 " << choice << "? \"yes\" or \"no\"" << endl << endl;
+			getline(cin, check);
+			if(check == "yes"){
+				useItem(choice);
+			}
+			else if(choice == "no"){
+				inventory();
+			}
+			else{
+				cout << "I'm sorry, that's not an option" << endl << endl;
+				inventory();
+			}
+		}
+		else{
+			cout << "I'm sorry, that's not available." << endl << endl;
+		}
+	}
 }
 
 void Character::setShop(){
-	string tempItems [5] = {"potion", "strong potion", "power potion", "max potion", "revive"};
+	string tempItems [5] = {"potion", "strong-potion", "power-potion", "max-potion", "revive"};
 	shopItems.insert(shopItems.end(), tempItems, tempItems+5);
 	int tempPrices [5] = {200, 400, 800, 2000, 5000};
 	shopPrices.insert(shopPrices.end(), tempPrices, tempPrices+5);
@@ -152,8 +230,9 @@ void Character::shop(){
 	bool check;
 	int count;
 	int price;
-	cout << "                              WELCOME TO THE SHOP                               " << endl;
 	do{
+		printStats();
+		cout << "                              WELCOME TO THE SHOP                               " << endl;
 		cout << "================================================================================" << endl;
 		for(int i = 0; i != shopItems.size(); i++)
 			cout << "\"" << shopItems[i] << "\" x" << shopPrices[i] << " gold\t";
@@ -163,6 +242,7 @@ void Character::shop(){
 		cout << "What would you like to purchase? Or you may \"leave\"." << endl << endl;
 		cout << name << ": ";
 		cin >> choice;
+		cout << endl;
 		for(int i = 0; i != shopItems.size(); i++){
 			if(shopItems[i] == choice){
 				check = true;
@@ -170,13 +250,14 @@ void Character::shop(){
 			}
 		}
 		if(choice == "leave"){
-
+			break;
 		}
 		else if(check){
 			check = false;
-			cout << "How many would you like? \"1\", \"2\", \"3\",...\"99\"" << endl;
+			cout << "How many would you like? \"1\", \"2\", \"3\",...\"99\"" << endl << endl;
 			cout << name << ": ";
 			cin >> count;
+			cout << endl;
 			for(int i = 1; i <= 99; i++){
 				if(count == i)
 					check = true;
@@ -185,9 +266,14 @@ void Character::shop(){
 				if(price * count > gold)
 					cout << "You don't have enough gold!" << endl << endl;
 				else{
-					Character::addItem(choice);
+					for(int i = 0; i < count; i++){
+						Character::addItem(choice);
+					}
 					gold -= count * price;
-					cout << "Here you go, " << count << " " << choice << "[s]. What else would you like?" << endl << endl;
+					cout << "Here you go, " << count << " " << choice << "[s]." << endl << endl;
+					cout << "Press enter to return to the shop" << endl;
+					cin.ignore(10000, '\n');
+					cin.get();
 				}
 			}
 			else

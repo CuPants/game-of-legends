@@ -19,6 +19,7 @@ protected:
 	string characterType;
 	int level;
 	int health;
+	int maxHealth;
 	int gold;
 	bool alive;
 	int criticalPoint;
@@ -34,20 +35,27 @@ public:
 	~Character();
 	//accessor functions
 	string getName() const;
+	string getCharacterType() const;
 	int getLevel() const;
 	int getHealth() const;
+	int getMaxHealth() const;
 	int getGold() const;
 	bool getAlive() const;
 	//mutator functions
+	void setStats(string, string, int, int, int, int, bool);
 	void setName(string);
+	void setCharacterType(string);
 	void setLevel(int);
 	void setHealth(int);
+	void setMaxHealth(int);
 	void setGold(int);
 	void setAlive(bool);
 	//action functions
+	void saveState(const string SAVES);
 	void printStats();
 	int primaryAttack();
 	void addItem(string item);
+	void useItem(string item);
 	void inventory();
 	void setShop();
 	void shop();

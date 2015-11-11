@@ -18,10 +18,11 @@ protected:
 	std::vector<string> locations;
 public:
 	Village();
-	~Village();
+	void intro();
 	void setLocations();
 	void updateLocations(int level);
 	void printLocations();
+	string selection(string name);
 };
 
 #endif //VILLAGE_H
