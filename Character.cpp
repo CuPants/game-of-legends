@@ -19,46 +19,55 @@ using namespace std;
 Character::Character(){
 	name = "";
 	characterType = "";
+	experience = 0;
 	level = 0;
 	health = 0;
+	maxHealth = 0;
 	gold = 0;
 	alive = false;
+	specialAttackName = "";
 	srand(time(0));
 }
 
-Character::Character(string newName, string newCharacterType){
-	name = newName;
-	characterType = newCharacterType;
+Character::Character(string name, string characterType){
+	this->name = name;
+	this->characterType = characterType;
 }
 
 Warrior::Warrior(string name, string characterType) : Character::Character(name, characterType){
 	characterType = "warrior";
+	experience = 0;
 	level = 1;
 	health = 400;
 	maxHealth = 400;
 	gold = 500;
 	alive = true;
 	criticalPoint = 20;
+	specialAttackName = "power-attack";
 }
 
 Wizard::Wizard(string name, string characterType) : Character::Character(name, characterType){
 	characterType = "wizard";
+	experience = 0;
 	level = 1;
 	health = 200;
 	maxHealth = 200;
 	gold = 500;
 	alive = true;
 	criticalPoint = 12;
+	specialAttackName = "heal";
 }
 
 Looter::Looter(string name, string characterType) : Character::Character(name, characterType){
 	characterType = "looter";
+	experience = 0;
 	level = 1;
 	health = 200;
 	maxHealth = 200;
 	gold = 1000;
 	alive = true;
 	criticalPoint = 16;
+	specialAttackName = "quick-hit";
 }
 
 Character::~Character(){
@@ -71,6 +80,10 @@ string Character::getName() const{
 
 string Character::getCharacterType() const{
 	return characterType;
+}
+
+int Character::getExperience() const{
+	return experience;
 }
 
 int Character::getLevel() const{
@@ -93,9 +106,14 @@ bool Character::getAlive() const{
 	return alive;
 }
 
-void Character::setStats(string characterType, string name, int level, int health, int maxHealth, int gold, bool alive){
+string Character::getSpecialAttackName() const{
+	return specialAttackName;
+}
+
+void Character::setStats(string characterType, string name, int experience, int level, int health, int maxHealth, int gold, bool alive){
 	this->characterType = characterType;
 	this->name = name;
+	this->experience = experience;
 	this->level = level;
 	this->health = health;
 	this->maxHealth = maxHealth;
@@ -109,6 +127,10 @@ void Character::setCharacterType(string characterType){
 
 void Character::setName(string name){
 	this->name = name;
+}
+
+void Character::setExperience(int experience){
+	this->experience = experience;
 }
 
 void Character::setLevel(int level){
@@ -134,9 +156,9 @@ void Character::setAlive(bool alive){
 void Character::saveState(string saves){
 	ofstream fileOut;
 	fileOut.open(saves.c_str());
-	cout << items.size() << endl;
 	fileOut << characterType << endl;
     fileOut << name << endl;
+    fileOut << experience << endl;
     fileOut << level << endl;
     fileOut << health << endl;
     fileOut << maxHealth << endl;
@@ -153,8 +175,12 @@ void Character::saveState(string saves){
 
 void Character::printStats(){
 	cout << "================================================================================" << endl;
-	cout << "NAME: " << name << " CHARACTER: " << characterType << " LEVEL: " << level << " HEALTH: " << health << " GOLD: " << gold << " ALIVE: " << boolalpha << alive << endl;
+	cout << "NAME: " << name << " CHARACTER: " << characterType << " LEVEL: " << level << " HEALTH: " << health << "/" << maxHealth << " GOLD: " << gold << " ALIVE: " << boolalpha << alive << endl;
 	cout << "================================================================================" << endl << endl;
+}
+
+void Character::printAttacks(){
+	cout << "\n\"attack\" \"" << specialAttackName <<  "\" \"inventory\" \"flee\"" << endl << endl << endl;
 }
 
 int Character::primaryAttack(){
@@ -171,6 +197,7 @@ int Character::primaryAttack(){
         return damage;
     }
     else{
+    	cout << "Hit!" << endl;
         damage = rand() % (level * 2) + (level * level);
         cout << "You did " << damage << " point(s) of damage" << endl << endl;
         return damage;
@@ -188,19 +215,22 @@ void Character::useItem(string item){
 void Character::inventory(){
 	string choice;
 	string check;
-	cout << "                                   INVENTORY                                    " << endl;
+	cout << "                                   INVENTORY" << endl;
 	cout << "================================================================================" << endl;
-	for(vector<string>::const_iterator i = items.begin(); i != items.end(); i++)
+	for(vector<string>::const_iterator i = items.begin(); i < items.end(); i++)
 		cout << "\"" << *i << "\" ";
 	cout << endl;
 	cout << "================================================================================" << endl << endl;
 	cout << "What would you like to use? Or you may \"exit\"" << endl << endl;
 	cout << name << ": ";
 	cin >> choice;
-	for(int i = 0; i != items.size(); i++){
+	cout << endl;
+	for(int i = 0; i < items.size(); i++){
 		if(items[i] == choice){
 			cout << "So you would like to use 1 " << choice << "? \"yes\" or \"no\"" << endl << endl;
+			cout << name << ": ";
 			getline(cin, check);
+			cout << endl;
 			if(check == "yes"){
 				useItem(choice);
 			}
@@ -232,9 +262,9 @@ void Character::shop(){
 	int price;
 	do{
 		printStats();
-		cout << "                              WELCOME TO THE SHOP                               " << endl;
+		cout << "                              WELCOME TO THE SHOP" << endl;
 		cout << "================================================================================" << endl;
-		for(int i = 0; i != shopItems.size(); i++)
+		for(int i = 0; i < shopItems.size(); i++)
 			cout << "\"" << shopItems[i] << "\" x" << shopPrices[i] << " gold\t";
 		cout << endl;
 		cout << "================================================================================" << endl << endl;
@@ -270,7 +300,7 @@ void Character::shop(){
 						Character::addItem(choice);
 					}
 					gold -= count * price;
-					cout << "Here you go, " << count << " " << choice << "[s]." << endl << endl;
+					cout << "Here you go, " << count << " " << choice << "(s)." << endl << endl;
 					cout << "Press enter to return to the shop" << endl;
 					cin.ignore(10000, '\n');
 					cin.get();

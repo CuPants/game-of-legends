@@ -22,23 +22,34 @@ Home::Home(){
 void Home::intro(Character *character){
 	string choice;
 	cout << "Hi " << character->getName() << ", Welcome home!" << endl << endl;
-	do{
-		cout << "Would you like to take a quick rest before heading back out? \"yes\" or \"no\"" << endl << endl;
-		cout << character->getName() << ": ";
-		cin >> choice;
-		cout << endl;
-		if(choice == "yes")
-			character->setHealth(rest(character->getMaxHealth()));
-		else if(choice == "no")
-			cout << "Alright, well thanks for stopping by!" << endl << endl;
-		else
-			cout << "I'm sorry, that isn't an option" << endl << endl;
-	}while(choice != "yes" && choice != "no");
+	if(character->getAlive()){
+		do{
+			cout << "Would you like to take a quick rest before heading back out? \"yes\" or \"no\"" << endl << endl;
+			cout << character->getName() << ": ";
+			cin >> choice;
+			cout << endl;
+			if(choice == "yes")
+				rest(character);
+			else if(choice == "no")
+				cout << "Alright, well thanks for stopping by!" << endl << endl;
+			else
+				cout << "I'm sorry, that isn't an option" << endl << endl;
+		}while(choice != "yes" && choice != "no");
+	}
+	else{
+		cout << "Looks like you've been having some trouble, you should take a rest." << endl << endl;
+	}
 }
 
-int Home::rest(int maxHealth){
+void Home::rest(Character *character){
+	int restTime;
+	if(character->getAlive())
+		restTime = 3;
+	else
+		restTime = 8;
 	cout << "Resting..." << endl << endl;
-	this_thread::sleep_for (std::chrono::seconds(3));
+	this_thread::sleep_for (std::chrono::seconds(restTime));
 	cout << "That's better, you've been returned to full health!" << endl << endl;
-	return maxHealth;
+	character->setAlive(true);
+	character->setHealth(character->getMaxHealth());
 }

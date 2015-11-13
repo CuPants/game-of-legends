@@ -11,6 +11,8 @@
 //#include <unistd.h>
 //usleep(1000000);
 #include "Character.h"
+#include "Enemy.h"
+#include "Battle.h"
 #include "Village.h"
 #include "Home.h"
 
@@ -31,11 +33,15 @@ void runGame(){
     //variable declarations
     const string SAVES = "saves.txt";
     string choice, name, characterType, fileName, fileCharacterType, fileItem, lineType;
-    int fileLevel, fileHealth, fileMaxHealth, fileGold;
-    bool load, fileAlive;
+    int fileExperience, fileLevel, fileHealth, fileMaxHealth, fileGold;
+    bool load, fileAlive, firstPass = true, quit;
+    locale loc;
     ifstream fileIn;
     ofstream fileOut;
     Character *character;
+    Enemy *tank;
+    Enemy *beast;
+    Battle battle;
     Village village;
     Home home;
     //introductory banner
@@ -71,6 +77,7 @@ void runGame(){
                 continue;
             }
             fileIn >> fileName;
+            fileIn >> fileExperience;
             fileIn >> fileLevel;
             fileIn >> fileHealth;
             fileIn >> fileMaxHealth;
@@ -80,7 +87,7 @@ void runGame(){
                 fileIn >> fileItem;
                 character->addItem(fileItem);
             }
-            character->setStats(fileCharacterType, fileName, fileLevel, fileHealth, fileMaxHealth, fileGold, fileAlive);
+            character->setStats(fileCharacterType, fileName, fileExperience, fileLevel, fileHealth, fileMaxHealth, fileGold, fileAlive);
             load = true;
             fileIn.close();
         }
@@ -140,7 +147,7 @@ void runGame(){
     cin.get();
     cout << "WIZARD:" << endl;
     cout << "The wizard attacks using spells. His arsenal also allows the player to heal \nthemselves during battle." << endl;
-    cout << "He has the highest chance to miss, but also has the highest critical hit rate" << endl;
+    cout << "He has the highest chance to miss, but also has the highest critical hit rate." << endl;
     cin.get();
     cout << "LOOTER:" << endl;
     cout << "The looter is a physical fighter. His abilities allow you more gold and a much \nbetter chance of loot per battle." << endl;
@@ -197,8 +204,19 @@ void runGame(){
     village.setLocations();
     character->setShop();
 
-    do{
+    Tank myTank("tank");
+    tank = &myTank;
 
+    Beast myBeast("beast");
+    beast = &myBeast;
+
+    do{
+    quit = false;
+    for (string::size_type i=0; i < (80 - character->getName().length())/2; ++i)
+            cout << " ";
+    for (string::size_type i=0; i < character->getName().length(); ++i)
+        cout << toupper(character->getName()[i],loc);
+    cout << endl;
     village.updateLocations(character->getLevel());
     character->printStats();
     village.printLocations();
@@ -208,6 +226,12 @@ void runGame(){
         home.intro(character);
     }
     else if(choice == "path"){
+        if(firstPass){
+            battle.intro(character, tank);
+            firstPass = false;
+        }
+        else
+            battle.screen(character, tank);
     }
     else if(choice == "inventory"){
         character->inventory();
@@ -234,11 +258,22 @@ void runGame(){
             continue;
         }
     }
+    else if(choice == "quit"){
+        cout << "Are you sure you would like to quit? All unsaved progress will be lost.\n\"yes\" or \"no\"" << endl << endl;
+        cout << character->getName() << ": ";
+        cin >> choice;
+        if(choice == "yes"){
+            quit = true;
+        }
+        else if(choice == "no"){
+            continue;
+        }
+    }
     else{
         cout << "Input Error!" << endl;
     }
 
-    }while(true);
+    }while(!quit);
 }
 
 void printBanner(){

@@ -30,8 +30,8 @@ void Village::intro(){
 
 void Village::setLocations(){
 	locations.clear();
-	string tempLocations [6] = {"home", "path", "inventory", "shop", "river", "save"};
-	locations.insert(locations.end(), tempLocations, tempLocations+6);
+	string tempLocations [7] = {"home", "path", "inventory", "shop", "river", "save", "quit"};
+	locations.insert(locations.end(), tempLocations, tempLocations+7);
 }
 
 void Village::updateLocations(int level){
@@ -44,6 +44,7 @@ void Village::updateLocations(int level){
 }
 
 void Village::printLocations(){
+	cout << "                                  - VILLAGE -" << endl;
 	cout << "================================================================================" << endl;
 	for(vector<string>::const_iterator i = locations.begin(); i != locations.end(); i++)
 		cout << "\"" << *i << "\" ";

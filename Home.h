@@ -17,7 +17,7 @@ class Home{
 public:
 	Home();
 	void intro(Character *character);
-	int rest(int maxHealth);
+	void rest(Character *character);
 };
 
 #endif //HOME_H
