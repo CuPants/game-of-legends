@@ -6,10 +6,14 @@
 // Collaborators: David Thor
 //==============================================================================
 
+//libraries
 #include <iostream>
 #include <fstream>
-//#include <unistd.h>
-//usleep(1000000);
+#include <stdlib.h>
+#include <time.h>
+#include <thread>
+#include <chrono>
+//classes
 #include "Character.h"
 #include "Enemy.h"
 #include "Battle.h"
@@ -24,6 +28,7 @@ void printBanner();
 void error();
 void printLine();
 
+//main
 int main(){
     runGame();
     return 0;
@@ -33,14 +38,14 @@ void runGame(){
     //variable declarations
     const string SAVES = "saves.txt";
     string choice, name, characterType, fileName, fileCharacterType, fileItem, lineType;
-    int fileExperience, fileLevel, fileHealth, fileMaxHealth, fileGold;
+    int fileExperience, fileLevel, fileHealth, fileMaxHealth, fileGold, enemySelection;
     bool load, fileAlive, firstPass = true, quit;
+    srand(time(0));
     locale loc;
     ifstream fileIn;
     ofstream fileOut;
     Character *character;
-    Enemy *tank;
-    Enemy *beast;
+    Enemy *enemy;
     Battle battle;
     Village village;
     Home home;
@@ -58,6 +63,7 @@ void runGame(){
             break;
         }
         else if(choice == "load"){
+            firstPass = false;
             fileIn.open(SAVES.c_str());
             fileIn >> fileCharacterType;
             if(fileCharacterType == "warrior"){
@@ -204,12 +210,6 @@ void runGame(){
     village.setLocations();
     character->setShop();
 
-    Tank myTank("tank");
-    tank = &myTank;
-
-    Beast myBeast("beast");
-    beast = &myBeast;
-
     do{
     quit = false;
     for (string::size_type i=0; i < (80 - character->getName().length())/2; ++i)
@@ -221,17 +221,29 @@ void runGame(){
     character->printStats();
     village.printLocations();
     choice = village.selection(character->getName());
-
+    enemySelection = rand()%2;
     if(choice == "home"){
         home.intro(character);
     }
     else if(choice == "path"){
+        if(enemySelection == 0){
+            do{
+                Tank myTank("tank", character->getLevel() + (rand()%3-1));
+                enemy = &myTank;
+            }while(enemy->getLevel() == 0);
+        }
+        else if(enemySelection == 1){
+            do{
+                Beast myBeast("beast", character->getLevel() + (rand()%3-1));
+                enemy = &myBeast;
+            }while(enemy->getLevel() == 0);
+        }
         if(firstPass){
-            battle.intro(character, tank);
+            battle.intro(character, enemy);
             firstPass = false;
         }
         else
-            battle.screen(character, tank);
+            battle.screen(character, enemy);
     }
     else if(choice == "inventory"){
         character->inventory();
@@ -240,6 +252,24 @@ void runGame(){
         character->shop();
     }
     else if(choice == "river"){
+        if(enemySelection == 0){
+            do{
+                Tank myTank("tank", character->getLevel() + (rand()%3-1));
+                enemy = &myTank;
+            }while(enemy->getLevel() == 0);
+        }
+        else if(enemySelection == 1){
+            do{
+                Beast myBeast("beast", character->getLevel() + (rand()%3-1));
+                enemy = &myBeast;
+            }while(enemy->getLevel() == 0);
+        }
+        if(firstPass){
+            battle.intro(character, enemy);
+            firstPass = false;
+        }
+        else
+            battle.screen(character, enemy);
     }
     else if(choice == "forest"){
     }
@@ -252,7 +282,12 @@ void runGame(){
         cout << character->getName() << ": ";
         cin >> choice;
         if(choice == "yes"){
+            cout << "\nSaving..." << endl << endl;
+            this_thread::sleep_for (std::chrono::seconds(2));
             character->saveState(SAVES);
+            cin.ignore(10000, '\n');
+            cout << "Saved. press enter to continue." << endl;
+            cin.get();
         }
         else if(choice == "no"){
             continue;

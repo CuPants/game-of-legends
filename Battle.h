@@ -19,7 +19,7 @@ public:
 	Battle();
 	void intro(Character *character, Enemy *enemy);
 	void screen(Character *character, Enemy *enemy);
-	void attackChoice(Character *character, Enemy *enemy, string choice);
+	void attackChoice(Character *character, Enemy *enemy, string choice, bool &validChoice, bool &over);
 };
 
 #endif //BATTLE_H

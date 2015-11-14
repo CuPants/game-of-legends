@@ -35,11 +35,10 @@ Character::Character(string name, string characterType){
 }
 
 Warrior::Warrior(string name, string characterType) : Character::Character(name, characterType){
-	characterType = "warrior";
 	experience = 0;
 	level = 1;
-	health = 400;
-	maxHealth = 400;
+	health = 50;
+	maxHealth = 50;
 	gold = 500;
 	alive = true;
 	criticalPoint = 20;
@@ -47,11 +46,10 @@ Warrior::Warrior(string name, string characterType) : Character::Character(name,
 }
 
 Wizard::Wizard(string name, string characterType) : Character::Character(name, characterType){
-	characterType = "wizard";
 	experience = 0;
 	level = 1;
-	health = 200;
-	maxHealth = 200;
+	health = 30;
+	maxHealth = 30;
 	gold = 500;
 	alive = true;
 	criticalPoint = 12;
@@ -59,11 +57,10 @@ Wizard::Wizard(string name, string characterType) : Character::Character(name, c
 }
 
 Looter::Looter(string name, string characterType) : Character::Character(name, characterType){
-	characterType = "looter";
 	experience = 0;
 	level = 1;
-	health = 200;
-	maxHealth = 200;
+	health = 30;
+	maxHealth = 30;
 	gold = 1000;
 	alive = true;
 	criticalPoint = 16;
@@ -163,7 +160,9 @@ void Character::saveState(string saves){
     fileOut << health << endl;
     fileOut << maxHealth << endl;
     fileOut << gold << endl;
-    fileOut << alive << endl;
+    fileOut << alive;
+    if(!items.empty())
+    	cout << endl;
 	for(int i = 0; i < items.size(); i++){
 		fileOut << items[i];
 		if(i < items.size()-1){

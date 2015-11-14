@@ -7,8 +7,7 @@
 //==============================================================================
 
 #include <iostream>
-//#include <unistd.h>
-#include <thread>         // std::this_thread::sleep_for
+#include <thread>
 #include <chrono>
 #include "Home.h"
 #include "Character.h"
@@ -38,6 +37,7 @@ void Home::intro(Character *character){
 	}
 	else{
 		cout << "Looks like you've been having some trouble, you should take a rest." << endl << endl;
+		rest(character);
 	}
 }
 

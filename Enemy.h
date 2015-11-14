@@ -22,7 +22,7 @@ protected:
 	int criticalPoint;
 public:
 	Enemy();
-	Enemy(string);
+	Enemy(string, int);
 	~Enemy();
 	string getEnemyType() const;
 	int getLevel() const;
@@ -35,17 +35,18 @@ public:
 	void setMaxHealth(int);
 	void setAlive(bool);
 	void printStats();
-	int primaryAttack();
+	int primaryAttack(string &temp);
+	void printAttack(string, int);
 };
 
 class Tank: public Enemy{
 public:
-	Tank(string enemyType);
+	Tank(string enemyType, int level);
 };
 
 class Beast: public Enemy{
 public:
-	Beast(string enemyType);
+	Beast(string enemyType, int level);
 };
 
 #endif //ENEMY_H

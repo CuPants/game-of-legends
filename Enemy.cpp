@@ -22,24 +22,21 @@ Enemy::Enemy(){
 	srand(time(0));
 }
 
-Enemy::Enemy(string enemyType){
+Enemy::Enemy(string enemyType, int level){
 	this->enemyType = enemyType;
+	this->level = level;
 }
 
-Tank::Tank(string enemyType) : Enemy::Enemy(enemyType){
-	enemyType = "tank";
-	level = 1;
-	health = level*15;
-	maxHealth = level*15;
+Tank::Tank(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level*level*15;
+	maxHealth = level*level*15;
 	alive = true;
 	criticalPoint = 20;
 }
 
-Beast::Beast(string enemyType) : Enemy::Enemy(enemyType){
-	enemyType = "beast";
-	level = 1;
-	health = level*10;
-	maxHealth = level*10;
+Beast::Beast(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level*level*10;
+	maxHealth = level*level*10;
 	alive = true;
 	criticalPoint = 12;
 }
@@ -78,27 +75,39 @@ void Enemy::setAlive(bool alive){
 
 void Enemy::printStats(){
 	cout << "================================================================================" << endl;
-	cout << "Enemy: " << enemyType << " LEVEL: " << level << " HEALTH: " << health << "/" << maxHealth << " ALIVE: " << boolalpha << alive << endl;
+	cout << "ENEMY: " << enemyType << " LEVEL: " << level << " HEALTH: " << health << "/" << maxHealth << " ALIVE: " << boolalpha << alive << endl;
 	cout << "================================================================================" << endl;
 }
 
-int Enemy::primaryAttack(){
+int Enemy::primaryAttack(string &temp){
     int damage = 0;
     if (rand() % criticalPoint == 0){
-        cout << "Miss!" << endl;
-        cout << enemyType << " did 0 points of damage" << endl << endl;
-        return 0;
+    	temp = "miss";
+        return damage;
     }
     else if (rand() % criticalPoint == 0){
-        cout << "Critical hit!" << endl;
+    	temp = "critical";
         damage = (rand() % (level * 2) + (level * level)) * 2;
-        cout << enemyType << " did " << damage << " point(s) of damage" << endl << endl;
         return damage;
     }
     else{
-    	cout << "Hit!" << endl;
+    	temp = "hit";
         damage = rand() % (level * 2) + (level * level);
-        cout << enemyType << " did " << damage << " point(s) of damage" << endl << endl;
         return damage;
     }
+}
+
+void Enemy::printAttack(string temp, int damage){
+	if(temp == "miss"){
+		cout << "Miss!" << endl;
+        cout << enemyType << " did 0 points of damage" << endl << endl;
+	}
+	else if(temp == "critical"){
+		cout << "Critical hit!" << endl;
+		cout << enemyType << " did " << damage << " point(s) of damage" << endl << endl;
+	}
+	else if(temp == "hit"){
+		cout << "Hit!" << endl;
+		cout << enemyType << " did " << damage << " point(s) of damage" << endl << endl;
+	}
 }

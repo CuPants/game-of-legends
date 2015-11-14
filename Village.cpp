@@ -35,11 +35,11 @@ void Village::setLocations(){
 }
 
 void Village::updateLocations(int level){
-	if(level >= 10)
+	if(level >= 10 && locations.size() < 8)
 		locations.push_back("forest");
-	if(level >= 15)
+	if(level >= 15 && locations.size() < 9)
 		locations.push_back("cliff");
-	if(level >= 20)
+	if(level >= 20 && locations.size() < 10)
 		locations.push_back("mountain");
 }
 
