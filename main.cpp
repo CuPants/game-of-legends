@@ -18,6 +18,8 @@
 #include "Enemy.h"
 #include "Battle.h"
 #include "Village.h"
+#include "Path.h"
+#include "River.h"
 #include "Home.h"
 
 using namespace std;
@@ -34,12 +36,13 @@ int main(){
     return 0;
 }
 
+//runs the game
 void runGame(){
     //variable declarations
     const string SAVES = "saves.txt";
     string choice, name, characterType, fileName, fileCharacterType, fileItem, lineType;
-    int fileExperience, fileLevel, fileHealth, fileMaxHealth, fileGold, enemySelection;
-    bool load, fileAlive, firstPass = true, quit;
+    int fileExperience, fileLevel, fileHealth, fileMaxHealth, fileGold;
+    bool load, fileAlive, firstPass = true, quit, won;
     srand(time(0));
     locale loc;
     ifstream fileIn;
@@ -48,20 +51,25 @@ void runGame(){
     Enemy *enemy;
     Battle battle;
     Village village;
+    Path path;
+    River river;
     Home home;
     //introductory banner
     printBanner();
     cout << endl;
 
+    //prompts user to start a new game or load a saved file
     do{
         cout << "\"new\"" << endl;
         cout << "\"load\"" << endl << endl;
         getline(cin, choice);
         cout << endl;
+        //starts a new game
         if(choice == "new"){
             load = false;
             break;
         }
+        //loads a previous save
         else if(choice == "load"){
             firstPass = false;
             fileIn.open(SAVES.c_str());
@@ -133,34 +141,41 @@ void runGame(){
         }
     }while(choice == "no");
 
+    //Introduction to the game
     cout << "Hello " << name << ", and welcome to the Land of Lerocia!" << endl << endl;
     cout << "Press enter to continue" << endl;
     cin.get();
-    cout << "This is a text-based game in which you will fight enemies in turn-based \nbattles, collect items and weapons, and build up your character." << endl;
+    cout << "This is a text-based game in which you will fight enemies in turn-based\n"
+         << "battles, collect items and weapons, and build up your character." << endl;
     cin.get();
-    cout << "To perform an action, you must type one of the commands marked in quotations.\nOtherwise, just hit enter to continue" << endl;
+    cout << "To perform an action, you must type one of the commands marked in quotations.\n"
+         << "Otherwise, just hit enter to continue" << endl;
     cin.get();
-    //list character types
     cout << "Very good! Now let's get started." << endl;
     cin.get();
     cout << "First things first, you have to choose your character." << endl;
     cin.get();
-    cout << "Each has different attributes and you will be this character for the rest of \nthe game. So choose wisely." << endl;
+    cout << "Each has different attributes and you will be this character for the rest of\n"
+         << "the game. So choose wisely." << endl;
     cin.get();
+    //list character types
     cout << "WARRIOR:" << endl;
-    cout << "The warrior is a physical fighter. His stats allow you to have extra max health \nthan the other characters." << endl;
+    cout << "The warrior is a physical fighter. His stats allow you to have extra max health \n"
+         << "than the other characters." << endl;
     cout << "He has the lowest chance to miss, but also a lower critical hit rate." << endl;
     cin.get();
     cout << "WIZARD:" << endl;
-    cout << "The wizard attacks using spells. His arsenal also allows the player to heal \nthemselves during battle." << endl;
+    cout << "The wizard attacks using spells. His arsenal also allows the player to heal \n"
+         << "themselves during battle." << endl;
     cout << "He has the highest chance to miss, but also has the highest critical hit rate." << endl;
     cin.get();
     cout << "LOOTER:" << endl;
-    cout << "The looter is a physical fighter. His abilities allow you more gold and a much \nbetter chance of loot per battle." << endl;
+    cout << "The looter is a physical fighter. His abilities allow you more gold and a much \n"
+         << "better chance of loot per battle." << endl;
     cout << "He has an equal miss and critical hit rate." << endl;
     cin.get();
     printLine();
-    cout << "             \"warrior\"           \"wizard\"           \"looter\"              " << endl;
+    cout << "\t      \"warrior\"             \"wizard\"             \"looter\"" << endl;
     printLine();
     cout << endl;
     //character selection
@@ -187,7 +202,7 @@ void runGame(){
         }
 
         character->printStats();
-
+        //confirm character selection
         do{
             cout << "So you want to be a " << characterType << "? \"yes\" or \"no\"" << endl << endl;
             cout << name << ": ";
@@ -202,14 +217,17 @@ void runGame(){
         }while(choice != "yes" && choice != "no");
     }while(characterType != "warrior" && characterType != "wizard" && characterType != "looter");
 
+    //new game begins
     cout << "Let your journey begin!" << endl << endl;
     village.intro();
 
     }
-
+    //sets initial village locations
     village.setLocations();
+    //sets all shop items
     character->setShop();
 
+    //Runs as long as the game is on
     do{
     quit = false;
     for (string::size_type i=0; i < (80 - character->getName().length())/2; ++i)
@@ -221,29 +239,11 @@ void runGame(){
     character->printStats();
     village.printLocations();
     choice = village.selection(character->getName());
-    enemySelection = rand()%2;
     if(choice == "home"){
         home.intro(character);
     }
     else if(choice == "path"){
-        if(enemySelection == 0){
-            do{
-                Tank myTank("tank", character->getLevel() + (rand()%3-1));
-                enemy = &myTank;
-            }while(enemy->getLevel() == 0);
-        }
-        else if(enemySelection == 1){
-            do{
-                Beast myBeast("beast", character->getLevel() + (rand()%3-1));
-                enemy = &myBeast;
-            }while(enemy->getLevel() == 0);
-        }
-        if(firstPass){
-            battle.intro(character, enemy);
-            firstPass = false;
-        }
-        else
-            battle.screen(character, enemy);
+        path.firstLocation(character);
     }
     else if(choice == "inventory"){
         character->inventory();
@@ -252,24 +252,7 @@ void runGame(){
         character->shop();
     }
     else if(choice == "river"){
-        if(enemySelection == 0){
-            do{
-                Tank myTank("tank", character->getLevel() + (rand()%3-1));
-                enemy = &myTank;
-            }while(enemy->getLevel() == 0);
-        }
-        else if(enemySelection == 1){
-            do{
-                Beast myBeast("beast", character->getLevel() + (rand()%3-1));
-                enemy = &myBeast;
-            }while(enemy->getLevel() == 0);
-        }
-        if(firstPass){
-            battle.intro(character, enemy);
-            firstPass = false;
-        }
-        else
-            battle.screen(character, enemy);
+        river.scene(character, firstPass, won);
     }
     else if(choice == "forest"){
     }
@@ -278,15 +261,16 @@ void runGame(){
     else if(choice == "mountain"){
     }
     else if(choice == "save"){
-        cout << "Are you sure you would like to save? This will overwrite any saved data.\n\"yes\" or \"no\"" << endl << endl;
+        cout << "Are you sure you would like to save? This will overwrite any saved data.\n"
+             << "\"yes\" or \"no\"" << endl << endl;
         cout << character->getName() << ": ";
         cin >> choice;
         if(choice == "yes"){
-            cout << "\nSaving..." << endl << endl;
+            cout << "\nSaving, please wait..." << endl << endl;
             this_thread::sleep_for (std::chrono::seconds(2));
             character->saveState(SAVES);
             cin.ignore(10000, '\n');
-            cout << "Saved. press enter to continue." << endl;
+            cout << "Game saved. press enter to continue." << endl;
             cin.get();
         }
         else if(choice == "no"){
@@ -294,7 +278,8 @@ void runGame(){
         }
     }
     else if(choice == "quit"){
-        cout << "Are you sure you would like to quit? All unsaved progress will be lost.\n\"yes\" or \"no\"" << endl << endl;
+        cout << "Are you sure you would like to quit? All unsaved progress will be lost.\n"
+             << "\"yes\" or \"no\"" << endl << endl;
         cout << character->getName() << ": ";
         cin >> choice;
         if(choice == "yes"){
@@ -313,15 +298,15 @@ void runGame(){
 
 void printBanner(){
     printLine();
-    cout << "                                GAME OF LEGENDS                                 " << endl;
-    cout << "                                     -----                                      " << endl;
-    cout << "                                Land of Lerocia                                 " << endl;
+    cout << "\t\t\t\tGAME OF LEGENDS" << endl;
+    cout << "\t\t\t\t     -----" << endl;
+    cout << "\t\t\t\tLand of Lerocia" << endl;
     printLine();
 }
 
 void error()
 {
-    cout << "I'm sorry, that isn't an option" << endl << endl;
+    cout << "I'm sorry, that isn't an option." << endl << endl;
 }
 
 void printLine()

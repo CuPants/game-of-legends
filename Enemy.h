@@ -20,6 +20,8 @@ protected:
 	int maxHealth;
 	bool alive;
 	int criticalPoint;
+	int missPoint;
+	float damageMultiplier;
 public:
 	Enemy();
 	Enemy(string, int);
@@ -39,6 +41,26 @@ public:
 	void printAttack(string, int);
 };
 
+class Jack: public Enemy{
+public:
+	Jack(string enemyType, int level);
+};
+
+class Thug: public Enemy{
+public:
+	Thug(string enemyType, int level);
+};
+
+class Brawler: public Enemy{
+public:
+	Brawler(string enemyType, int level);
+};
+
+class Hunter: public Enemy{
+public:
+	Hunter(string enemyType, int level);
+};
+
 class Tank: public Enemy{
 public:
 	Tank(string enemyType, int level);
@@ -47,6 +69,21 @@ public:
 class Beast: public Enemy{
 public:
 	Beast(string enemyType, int level);
+};
+
+class Brute: public Enemy{
+public:
+	Brute(string enemyType, int level);
+};
+
+class Wolf: public Enemy{
+public:
+	Wolf(string enemyType, int level);
+};
+
+class Witch: public Enemy{
+public:
+	Witch(string enemyType, int level);
 };
 
 #endif //ENEMY_H

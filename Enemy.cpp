@@ -27,11 +27,49 @@ Enemy::Enemy(string enemyType, int level){
 	this->level = level;
 }
 
+Jack::Jack(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 150;
+	maxHealth = 150;
+	alive = true;
+	criticalPoint = 10;
+	missPoint = 10;
+	damageMultiplier = 1;
+}
+
+Thug::Thug(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 350;
+	maxHealth = 350;
+	alive = true;
+	criticalPoint = 16;
+	missPoint = 12;
+	damageMultiplier = 1;
+}
+
+Brawler::Brawler(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 420;
+	maxHealth = 420;
+	alive = true;
+	criticalPoint = 16;
+	missPoint = 14;
+	damageMultiplier = 1;
+}
+
+Hunter::Hunter(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 490;
+	maxHealth = 490;
+	alive = true;
+	criticalPoint = 3;
+	missPoint = 24;
+	damageMultiplier = 1.4;
+}
+
 Tank::Tank(string enemyType, int level) : Enemy::Enemy(enemyType, level){
-	health = level*level*15;
-	maxHealth = level*level*15;
+	health = level*level*16;
+	maxHealth = level*level*16;
 	alive = true;
 	criticalPoint = 20;
+	missPoint = 20;
+	damageMultiplier = .8;
 }
 
 Beast::Beast(string enemyType, int level) : Enemy::Enemy(enemyType, level){
@@ -39,6 +77,35 @@ Beast::Beast(string enemyType, int level) : Enemy::Enemy(enemyType, level){
 	maxHealth = level*level*10;
 	alive = true;
 	criticalPoint = 12;
+	missPoint = 12;
+	damageMultiplier = 1.2;
+}
+
+Brute::Brute(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level*level*18;
+	maxHealth = level*level*18;
+	alive = true;
+	criticalPoint = 16;
+	missPoint = 20;
+	damageMultiplier = 1.6;
+}
+
+Wolf::Wolf(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level*level*15;
+	maxHealth = level*level*15;
+	alive = true;
+	criticalPoint = 5;
+	missPoint = 16;
+	damageMultiplier = 1.8;
+}
+
+Witch::Witch(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level*level*12;
+	maxHealth = level*level*12;
+	alive = true;
+	criticalPoint = 24;
+	missPoint = 2;
+	damageMultiplier = 2.6;
 }
 
 Enemy::~Enemy(){
@@ -65,6 +132,10 @@ bool Enemy::getAlive() const{
 	return alive;
 }
 
+void Enemy::setLevel(int level){
+	this->level = level;
+}
+
 void Enemy::setHealth(int health){
 	this->health = health;
 }
@@ -75,13 +146,13 @@ void Enemy::setAlive(bool alive){
 
 void Enemy::printStats(){
 	cout << "================================================================================" << endl;
-	cout << "ENEMY: " << enemyType << " LEVEL: " << level << " HEALTH: " << health << "/" << maxHealth << " ALIVE: " << boolalpha << alive << endl;
+	cout << "ENEMY: " << enemyType << " LEVEL: " << level << " HEALTH: " << health << "/" << maxHealth << endl;
 	cout << "================================================================================" << endl;
 }
 
 int Enemy::primaryAttack(string &temp){
     int damage = 0;
-    if (rand() % criticalPoint == 0){
+    if (rand() % missPoint == 0){
     	temp = "miss";
         return damage;
     }

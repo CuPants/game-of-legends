@@ -24,8 +24,8 @@ protected:
 	int gold;
 	bool alive;
 	int criticalPoint;
+	float damageMultiplier;
 	string specialAttackName;
-	std::vector<string> items;
 	std::vector<string> shopItems;
 	std::vector<int> shopPrices;
 public:
@@ -60,11 +60,14 @@ public:
 	void printStats();
 	void printAttacks();
 	int primaryAttack();
+	int specialAttack();
 	void addItem(string item);
-	void useItem(string item);
+	void useItem(string item, int position);
 	void inventory();
 	void setShop();
 	void shop();
+	//public vector - TO-DO: create a get function to return the items vector
+	std::vector<string> items;
 };
 
 class Warrior: public Character{

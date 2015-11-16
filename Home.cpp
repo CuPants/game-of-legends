@@ -32,7 +32,7 @@ void Home::intro(Character *character){
 			else if(choice == "no")
 				cout << "Alright, well thanks for stopping by!" << endl << endl;
 			else
-				cout << "I'm sorry, that isn't an option" << endl << endl;
+				cout << "I'm sorry, that isn't an option." << endl << endl;
 		}while(choice != "yes" && choice != "no");
 	}
 	else{
@@ -47,9 +47,12 @@ void Home::rest(Character *character){
 		restTime = 3;
 	else
 		restTime = 8;
-	cout << "Resting..." << endl << endl;
+	cout << "Resting, please wait..." << endl << endl;
 	this_thread::sleep_for (std::chrono::seconds(restTime));
-	cout << "That's better, you've been returned to full health!" << endl << endl;
+	cout << "That's better, you've been returned to full health!" << endl;
 	character->setAlive(true);
 	character->setHealth(character->getMaxHealth());
+	cout << "Press enter to return to the village." << endl;
+	cin.clear();
+	cin.get();
 }

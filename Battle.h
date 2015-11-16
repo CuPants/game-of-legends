@@ -17,9 +17,9 @@ using namespace std;
 class Battle{
 public:
 	Battle();
-	void intro(Character *character, Enemy *enemy);
-	void screen(Character *character, Enemy *enemy);
-	void attackChoice(Character *character, Enemy *enemy, string choice, bool &validChoice, bool &over);
+	void intro(Character *character, Enemy *enemy, bool &won);
+	void screen(Character *character, Enemy *enemy, bool &won);
+	void attackChoice(Character *character, Enemy *enemy, string choice, bool &validChoice, bool &over, bool &won);
 };
 
 #endif //BATTLE_H

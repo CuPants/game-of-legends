@@ -44,7 +44,7 @@ void Village::updateLocations(int level){
 }
 
 void Village::printLocations(){
-	cout << "                                  - VILLAGE -" << endl;
+	cout << "\t\t\t\t  - VILLAGE -" << endl;
 	cout << "================================================================================" << endl;
 	for(vector<string>::const_iterator i = locations.begin(); i != locations.end(); i++)
 		cout << "\"" << *i << "\" ";
