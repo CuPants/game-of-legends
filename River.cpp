@@ -1,5 +1,5 @@
 //============================================================================== 
-// File name    : Character.cpp
+// File name    : River.cpp
 // Author       : Jeffrey Thor
 // Date         : 11/16/2015
 // Description  : River Class - Game of Legends
@@ -28,21 +28,31 @@ void River::scene(Character *character, bool &firstPass, bool won){
 	Enemy *enemy;
 	Battle battle;
     if(enemySelection == 0){
-    	do{
-        	Tank myTank("tank", character->getLevel() + (rand()%3-1));
-        	enemy = &myTank;
-    	}while(enemy->getLevel() == 0);
+    	if(character->getLevel() > 11){
+    		Tank tank("tank", 11);
+        	enemy = &tank;
+    	}
+    	else{
+    		do{
+        		Tank tank("tank", character->getLevel() + (rand()%3-1));
+        		enemy = &tank;
+    		}while(enemy->getLevel() == 0);
+    	}
     }
     else if(enemySelection == 1){
-        do{
-            Beast myBeast("beast", character->getLevel() + (rand()%3-1));
-            enemy = &myBeast;
-        }while(enemy->getLevel() == 0);
+    	if(character->getLevel() > 11){
+    		Beast beast("beast", 11);
+            enemy = &beast;
+    	}
+    	else{
+        	do{
+            	Beast beast("beast", character->getLevel() + (rand()%3-1));
+            	enemy = &beast;
+        	}while(enemy->getLevel() == 0);
+        }
     }
     else
     	cout << "Selection Error!" << endl;
-    if(enemy->getLevel() > 11)
-    	enemy->setLevel(11);
     if(firstPass){
         battle.intro(character, enemy, won);
         firstPass = false;

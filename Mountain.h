@@ -1,22 +1,22 @@
 //============================================================================== 
-// File name    : River.h
+// File name    : Mountain.h
 // Author       : Jeffrey Thor
-// Date         : 11/16/2015
-// Description  : River Class - Game of Legends
+// Date         : 11/18/2015
+// Description  : Mountain Class - Game of Legends
 // Collaborators: n/a
 //==============================================================================
 
-#ifndef RIVER_H
-#define RIVER_H
+#ifndef MOUNTAIN_H
+#define MOUNTAIN_H
 
 #include <string>
 #include "Character.h"
 using namespace std;
 
-class River{
+class Mountain{
 public:
-	River();
-	void scene(Character *character, bool &firstPass, bool won);
+	Mountain();
+	void scene(Character *character, bool won);
 };
 
-#endif //RIVER_H
+#endif //MOUNTAIN_H

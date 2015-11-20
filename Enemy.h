@@ -86,4 +86,9 @@ public:
 	Witch(string enemyType, int level);
 };
 
+class Ghost: public Enemy{
+public:
+	Ghost(string enemyType, int level);
+};
+
 #endif //ENEMY_H

@@ -28,7 +28,6 @@ void Battle::intro(Character *character, Enemy *enemy, bool &won){
 		 << "in a battle when you are displayed with attack options and the stats of your\n"
 		 << "enemy." << endl << endl;
 	cout << "Press enter to begin, good luck!" << endl;
-	cout << endl;
 	screen(character, enemy, won);
 }
 
@@ -83,6 +82,7 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
 	locale loc;
 	int xp;
 	int gold;
+	bool revived = false;
 	if(character->getHealth() > 0){
 		if(choice == "attack"){
 			validChoice = true;
@@ -155,13 +155,22 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
 		character->setAlive(false);
 		cout << "You lost the battle!" << endl << endl;
 		do{
-			cout << "Would you like to use a revive? \"yes\" or \"no\"" << endl << endl;
-			cin >> choice;
-			cout << endl;
+			for(int i = 0; i < character->items.size(); i++){
+				if(character->items[i] == "revive"){
+					cout << "Would you like to use a revive? \"yes\" or \"no\"" << endl << endl;
+					cin >> choice;
+					cout << endl;
+					break;
+				}
+			}
 			if(choice == "yes"){
 				for(int i = 0; i < character->items.size(); i++){
 					if(character->items[i] == "revive"){
 						character->useItem("revive", i);
+						revived = true;
+						over = false;
+						cin.clear();
+						break;
 					}
 					else if(character->items[i] != "revive" && i == character->items.size()){
 						cout << "I'm sorry, you don't have any available." << endl << endl;
@@ -169,16 +178,18 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
 				}
 			}
 			else if(choice == "no"){
-				
+
 			}
 			else{
 				cout << "I'm sorry, that isn't an option." << endl << endl;
 			}
 		}while(choice != "yes" && choice != "no");
-		cout << "You lost " << character->getGold()/2 << " gold." << endl << endl;
-		character->setGold(character->getGold()/2);
-		cout << "Press enter to return home." << endl;
-		cin.get();
-		home.intro(character);
+		if(!revived){
+			cout << "You lost " << character->getGold()/2 << " gold." << endl << endl;
+			character->setGold(character->getGold()/2);
+			cout << "Press enter to return home." << endl;
+			cin.get();
+			home.intro(character);
+		}
 	}
 }

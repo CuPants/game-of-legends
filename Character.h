@@ -35,7 +35,7 @@ public:
 	Character(string, string);
 	//destructor
 	~Character();
-	//accessor functions
+	//accessor methods
 	string getName() const;
 	string getCharacterType() const;
 	int getExperience() const;
@@ -45,7 +45,7 @@ public:
 	int getGold() const;
 	bool getAlive() const;
 	string getSpecialAttackName() const;
-	//mutator functions
+	//mutator methods
 	void setStats(string, string, int, int, int, int, int, bool);
 	void setName(string);
 	void setCharacterType(string);
@@ -55,7 +55,7 @@ public:
 	void setMaxHealth(int);
 	void setGold(int);
 	void setAlive(bool);
-	//action functions
+	//action methods
 	void saveState(const string SAVES);
 	void printStats();
 	void printAttacks();
@@ -66,7 +66,7 @@ public:
 	void inventory();
 	void setShop();
 	void shop();
-	//public vector - TO-DO: create a get function to return the items vector
+	//TO-DO: create a method to return the items vector, vector shouldn't be public
 	std::vector<string> items;
 };
 

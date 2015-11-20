@@ -20,6 +20,9 @@
 #include "Village.h"
 #include "Path.h"
 #include "River.h"
+#include "Forest.h"
+#include "Cliff.h"
+#include "Mountain.h"
 #include "Home.h"
 
 using namespace std;
@@ -53,6 +56,9 @@ void runGame(){
     Village village;
     Path path;
     River river;
+    Forest forest;
+    Cliff cliff;
+    Mountain mountain;
     Home home;
     //introductory banner
     printBanner();
@@ -255,10 +261,13 @@ void runGame(){
         river.scene(character, firstPass, won);
     }
     else if(choice == "forest"){
+        forest.scene(character, won);
     }
     else if(choice == "cliff"){
+        cliff.scene(character, won);
     }
     else if(choice == "mountain"){
+        mountain.scene(character, won);
     }
     else if(choice == "save"){
         cout << "Are you sure you would like to save? This will overwrite any saved data.\n"

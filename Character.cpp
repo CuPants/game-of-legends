@@ -244,9 +244,9 @@ int Character::specialAttack(){
 	}
 	else if(characterType == "looter"){
 		damage = ((rand() % (level * 2) + (level * level)) * damageMultiplier) / 2;
-		while(rand() % 2 == 0){
+		do{
 			counter++;
-		}
+		}while(rand() % 2 == 0);
 		damage *= counter;
 		if(damage == 0)
 			damage = 1;

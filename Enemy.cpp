@@ -108,6 +108,15 @@ Witch::Witch(string enemyType, int level) : Enemy::Enemy(enemyType, level){
 	damageMultiplier = 2.6;
 }
 
+Ghost::Ghost(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level*level;
+	maxHealth = level*level;
+	alive = true;
+	criticalPoint = 24;
+	missPoint = 3;
+	damageMultiplier = 10;
+}
+
 Enemy::~Enemy(){
 
 }
@@ -158,12 +167,12 @@ int Enemy::primaryAttack(string &temp){
     }
     else if (rand() % criticalPoint == 0){
     	temp = "critical";
-        damage = (rand() % (level * 2) + (level * level)) * 2;
+        damage = ((rand() % (level * 2) + (level * level)) * damageMultiplier) * 2;
         return damage;
     }
     else{
     	temp = "hit";
-        damage = rand() % (level * 2) + (level * level);
+        damage = (rand() % (level * 2) + (level * level)) * damageMultiplier;
         return damage;
     }
 }
