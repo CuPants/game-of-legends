@@ -19,10 +19,6 @@
 #include "Battle.h"
 #include "Village.h"
 #include "Path.h"
-#include "River.h"
-#include "Forest.h"
-#include "Cliff.h"
-#include "Mountain.h"
 #include "Home.h"
 
 using namespace std;
@@ -32,6 +28,10 @@ void runGame();
 void printBanner();
 void error();
 void printLine();
+void riverScene(Character *character, bool &firstPass, bool won);
+void forestScene(Character *character, bool &won);
+void cliffScene(Character *character, bool won);
+void mountainScene(Character *character, bool won);
 
 //main
 int main(){
@@ -55,10 +55,6 @@ void runGame(){
     Battle battle;
     Village village;
     Path path;
-    River river;
-    Forest forest;
-    Cliff cliff;
-    Mountain mountain;
     Home home;
     //introductory banner
     printBanner();
@@ -258,16 +254,16 @@ void runGame(){
         character->shop();
     }
     else if(choice == "river"){
-        river.scene(character, firstPass, won);
+        riverScene(character, firstPass, won);
     }
     else if(choice == "forest"){
-        forest.scene(character, won);
+        forestScene(character, won);
     }
     else if(choice == "cliff"){
-        cliff.scene(character, won);
+        cliffScene(character, won);
     }
     else if(choice == "mountain"){
-        mountain.scene(character, won);
+        mountainScene(character, won);
     }
     else if(choice == "save"){
         cout << "Are you sure you would like to save? This will overwrite any saved data.\n"
@@ -324,4 +320,151 @@ void printLine()
         cout << '=';
     }
     cout << endl;
+}
+
+void riverScene(Character *character, bool &firstPass, bool won){
+    cout << "You wander out to the river right outside the village, as you get to the water\n"
+         << "you begin to hear strange noises." << endl << endl;
+    cout << "Watch out!" << endl;
+    cout << "Press enter to fight." << endl;
+    cin.get();
+    int enemySelection = rand() % 2;
+    Enemy *enemy;
+    Battle battle;
+    if(enemySelection == 0){
+        if(character->getLevel() > 11){
+            Tank tank("tank", 11);
+            enemy = &tank;
+        }
+        else{
+            do{
+                Tank tank("tank", character->getLevel() + (rand()%3-1));
+                enemy = &tank;
+            }while(enemy->getLevel() == 0);
+        }
+    }
+    else if(enemySelection == 1){
+        if(character->getLevel() > 11){
+            Beast beast("beast", 11);
+            enemy = &beast;
+        }
+        else{
+            do{
+                Beast beast("beast", character->getLevel() + (rand()%3-1));
+                enemy = &beast;
+            }while(enemy->getLevel() == 0);
+        }
+    }
+    else
+        cout << "Selection Error!" << endl;
+    if(firstPass){
+        battle.intro(character, enemy, won);
+        firstPass = false;
+    }
+    else
+        battle.screen(character, enemy, won);
+}
+
+void forestScene(Character *character, bool &won){
+    cout << "I guess you're more comfortable with leaving the village now, the forest is\n"
+         << "seeming a little ominous." << endl << endl;
+    cout << "What's that sound??" << endl;
+    cout << "Press enter to fight." << endl;
+    cin.get();
+    int enemySelection = rand() % 2;
+    Enemy *enemy;
+    Battle battle;
+    if(enemySelection == 0){
+        if(character->getLevel() > 16){
+            Brute brute("brute", 16);
+            enemy = &brute;
+        }
+        else{
+            Brute brute("brute", character->getLevel() + (rand()%3-1));
+            enemy = &brute;
+        }
+    }
+    else if(enemySelection == 1){
+        if(character->getLevel() > 16){
+            Wolf wolf("wolf", 16);
+            enemy = &wolf;
+        }
+        else{
+            Wolf wolf("wolf", character->getLevel() + (rand()%3-1));
+            enemy = &wolf;
+        }
+    }
+    else
+        cout << "Selection Error!" << endl;
+    battle.screen(character, enemy, won);
+}
+
+void cliffScene(Character *character, bool won){
+    cout << "A little ways south of the village, you've heard rumors of the haunted cliff." << endl << endl;
+    cout << "Looks like the rumors may be true!" << endl;
+    cout << "Press enter to fight." << endl;
+    cin.get();
+    int enemySelection = rand() % 2;
+    Enemy *enemy;
+    Battle battle;
+    if(enemySelection == 0){
+        if(character->getLevel() > 21){
+            Witch witch("witch", 21);
+            enemy = &witch;
+        }
+        else{
+            Witch witch("witch", character->getLevel() + (rand()%3-1));
+            enemy = &witch;
+        }
+    }
+    else if(enemySelection == 1){
+        if(character->getLevel() > 21){
+            Ghost ghost("ghost", 21);
+            enemy = &ghost;
+        }
+        else{
+            Ghost ghost("ghost", character->getLevel() + (rand()%3-1));
+            enemy = &ghost;
+        }
+    }
+    else
+        cout << "Selection Error!" << endl;
+    battle.screen(character, enemy, won);
+}
+
+void mountainScene(Character *character, bool won){
+    cout << "You've trained long and hard, you're strong enough to make the climb." << endl << endl;
+    cout << "But what lies at the peak??" << endl;
+    cout << "Press enter to fight." << endl;
+    cin.get();
+    int enemySelection = rand() % 6;
+    Enemy *enemy;
+    Battle battle;
+    if(enemySelection == 0){
+        Tank tank("tank", character->getLevel() + (rand()%3-1));
+        enemy = &tank;
+    }
+    else if(enemySelection == 1){
+        Beast beast("beast", character->getLevel() + (rand()%3-1));
+        enemy = &beast;
+    }
+    else if(enemySelection == 2){
+        Brute brute("brute", character->getLevel() + (rand()%3-1));
+        enemy = &brute;
+    }
+    else if(enemySelection == 3){
+        Wolf wolf("wolf", character->getLevel() + (rand()%3-1));
+        enemy = &wolf;
+    }
+    else if(enemySelection == 4){
+        Witch witch("witch", character->getLevel() + (rand()%3-1));
+        enemy = &witch;
+    }
+    else if(enemySelection == 5){
+        Ghost ghost("ghost", character->getLevel() + (rand()%3-1));
+        enemy = &ghost;
+    }
+    else
+        cout << "Selection Error!" << endl;
+    battle.screen(character, enemy, won);
 }
