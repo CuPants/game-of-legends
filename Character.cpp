@@ -310,7 +310,8 @@ void Character::inventory(){
 	cout << "================================================================================" << endl << endl;
 	cout << "What would you like to use? Or you may \"exit\"" << endl << endl;
 	cout << name << ": ";
-	cin >> choice;
+	cin.clear();
+	getline(cin, choice);
 	cout << endl;
 	for(int i = 0; i < items.size(); i++){
 		if(items[i] == choice){
@@ -367,7 +368,8 @@ void Character::shop(){
 
 		cout << "What would you like to purchase? Or you may \"leave\"." << endl << endl;
 		cout << name << ": ";
-		cin >> choice;
+		cin.clear();
+		getline(cin, choice);
 		cout << endl;
 		for(int i = 0; i != shopItems.size(); i++){
 			if(shopItems[i] == choice){
