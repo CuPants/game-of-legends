@@ -20,6 +20,7 @@
 #include "Village.h"
 #include "Path.h"
 #include "Home.h"
+#include "Shop.h"
 
 using namespace std;
 
@@ -56,6 +57,7 @@ void runGame(){
     Village village;
     Path path;
     Home home;
+    Shop shop;
     //introductory banner
     printBanner();
     cout << endl;
@@ -227,7 +229,7 @@ void runGame(){
     //sets initial village locations
     village.setLocations();
     //sets all shop items
-    character->setShop();
+    shop.setShop();
 
     //Runs as long as the game is on
     do{
@@ -251,7 +253,7 @@ void runGame(){
         character->inventory();
     }
     else if(choice == "shop"){
-        character->shop();
+        shop.shop(character);
     }
     else if(choice == "river"){
         riverScene(character, firstPass, won);

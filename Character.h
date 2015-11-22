@@ -64,8 +64,6 @@ public:
 	void addItem(string item);
 	void useItem(string item, int position);
 	void inventory();
-	void setShop();
-	void shop();
 	//TO-DO: create a method to return the items vector, vector shouldn't be public
 	std::vector<string> items;
 };
