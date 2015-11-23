@@ -25,7 +25,7 @@ void Home::intro(Character *character){
 		do{
 			cout << "Would you like to take a quick rest before heading back out? \"yes\" or \"no\"" << endl << endl;
 			cout << character->getName() << ": ";
-			cin >> choice;
+			getline(cin, choice);
 			cout << endl;
 			if(choice == "yes")
 				rest(character);
@@ -53,6 +53,5 @@ void Home::rest(Character *character){
 	character->setAlive(true);
 	character->setHealth(character->getMaxHealth());
 	cout << "Press enter to return to the village." << endl;
-	cin.clear();
 	cin.get();
 }

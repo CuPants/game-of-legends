@@ -58,7 +58,7 @@ string Village::selection(string name){
 	do{
 		cout << "Where would you like to go?" << endl << endl;
 		cout << name << ": ";
-		cin >> choice;
+		getline(cin, choice);
 		cout << endl;
 		for(int i = 0; i != locations.size(); i++){
 			if(locations[i] == choice){

@@ -123,9 +123,8 @@ void runGame(){
 
     //If player starts a new game
     if(!load){
-
+        //Prompt user for their name
         cout << "Welcome to Game of Legends - Land of Lerocia, please enter your name." << endl << endl;
-
         //enter and confirm users name
         do{
             cout << "Name: ";
@@ -231,16 +230,13 @@ void runGame(){
         //new game begins
         cout << "Let your journey begin!" << endl << endl;
         village.intro();
-
     }
     //sets initial village locations
     village.setLocations();
     //sets all shop items
     shop.setShop();
-
     //Runs as long as the game is on
     do{
-
         quit = false;
         //Output players banner
         for (string::size_type i=0; i < (80 - character->getName().length())/2; ++i)
@@ -288,13 +284,10 @@ void runGame(){
                 cout << "\nSaving, please wait..." << endl << endl;
                 this_thread::sleep_for (std::chrono::seconds(2));
                 character->saveState(SAVES);
-                cin.ignore(10000, '\n');
                 cout << "Game saved. press enter to continue." << endl;
-                cin.clear();
                 cin.get();
             }
             else if(choice == "no"){
-                cin.clear();
                 continue;
             }
         }
@@ -303,13 +296,15 @@ void runGame(){
                  << "\"yes\" or \"no\"" << endl << endl;
             cout << character->getName() << ": ";
             getline(cin, choice);
+            cout << endl;
             if(choice == "yes"){
                 quit = true;
-                cin.clear();
             }
             else if(choice == "no"){
-                cin.clear();
                 continue;
+            }
+            else{
+                error();
             }
         }
         //Error
@@ -317,7 +312,6 @@ void runGame(){
             cout << "Input Error!" << endl;
             exit(0);
         }
-
     }while(!quit);
 }
 

@@ -22,12 +22,12 @@ Battle::Battle(){
 }
 
 void Battle::intro(Character *character, Enemy *enemy, bool &won){
-	cin.ignore(10000, '\n');
 	cout << "Welcome to your first battle!" << endl << endl;
 	cout << "The battle screen is where you will fight all of your enemies. You know you are\n"
 		 << "in a battle when you are displayed with attack options and the stats of your\n"
 		 << "enemy." << endl << endl;
 	cout << "Press enter to begin, good luck!" << endl;
+	cin.get();
 	screen(character, enemy, won);
 }
 
@@ -37,10 +37,8 @@ void Battle::screen(Character *character, Enemy *enemy, bool &won){
 	bool firstPass = true, validChoice = true, over = false;
 	string temp;
 	int damage;
-	cin.ignore(10000, '\n');
 	do{
 		enemy->printStats();
-
 		for (string::size_type i=0; i < (80 - enemy->getEnemyType().length())/2; ++i)
    			cout << " ";
 		for (string::size_type i=0; i < enemy->getEnemyType().length(); ++i)
@@ -82,6 +80,7 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
 	locale loc;
 	int xp;
 	int gold;
+	bool foundRevive = false;
 	bool revived = false;
 	if(character->getHealth() > 0){
 		if(choice == "attack"){
@@ -154,36 +153,38 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
 		character->setHealth(0);
 		character->setAlive(false);
 		cout << "You lost the battle!" << endl << endl;
-		do{
-			for(int i = 0; i < character->items.size(); i++){
-				if(character->items[i] == "revive"){
+		for(int i = 0; i < character->items.size(); i++){
+			if(character->items[i] == "revive"){
+				foundRevive = true;
+				do{
 					cout << "Would you like to use a revive? \"yes\" or \"no\"" << endl << endl;
-					cin >> choice;
+					getline(cin, choice);
 					cout << endl;
-					break;
-				}
-			}
-			if(choice == "yes"){
-				for(int i = 0; i < character->items.size(); i++){
-					if(character->items[i] == "revive"){
-						character->useItem("revive", i);
-						revived = true;
-						over = false;
-						cin.clear();
-						break;
+					if(choice == "yes"){
+						for(int i = 0; i < character->items.size(); i++){
+							if(character->items[i] == "revive"){
+								character->useItem("revive", i);
+								revived = true;
+								over = false;
+								break;
+							}
+							else if(character->items[i] != "revive" && i == character->items.size()){
+								cout << "Conditional Error!" << endl;
+								exit(0);
+							}
+						}
 					}
-					else if(character->items[i] != "revive" && i == character->items.size()){
-						cout << "I'm sorry, you don't have any available." << endl << endl;
-					}
-				}
-			}
-			else if(choice == "no"){
+					else if(choice == "no"){
 
+					}
+					else{
+						cout << "I'm sorry, that isn't an option." << endl << endl;
+					}
+				}while(choice != "yes" && choice != "no");
 			}
-			else{
-				cout << "I'm sorry, that isn't an option." << endl << endl;
-			}
-		}while(choice != "yes" && choice != "no");
+			if(foundRevive)
+				break;
+		}
 		if(!revived){
 			cout << "You lost " << character->getGold()/2 << " gold." << endl << endl;
 			character->setGold(character->getGold()/2);
