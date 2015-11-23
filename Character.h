@@ -60,7 +60,7 @@ public:
 	void printStats();
 	void printAttacks();
 	int primaryAttack();
-	int specialAttack();
+	virtual int specialAttack();
 	void addItem(string item);
 	void useItem(string item, int position);
 	void inventory();

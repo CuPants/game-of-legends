@@ -33,6 +33,10 @@ Character::Character(string name, string characterType){
 	this->characterType = characterType;
 }
 
+int Character::specialAttack(){
+	return 0;
+}
+
 Warrior::Warrior(string name, string characterType) : Character::Character(name, characterType){
 	experience = 0;
 	level = 1;
@@ -43,6 +47,27 @@ Warrior::Warrior(string name, string characterType) : Character::Character(name,
 	criticalPoint = 20;
 	damageMultiplier = 1.8;
 	specialAttackName = "power-attack";
+}
+
+int Warrior::specialAttack(){
+	int damage = 0;
+	if (rand() % 3 == 0){
+        cout << "Miss!" << endl;
+        cout << "You did 0 points of damage" << endl << endl;
+        return damage;
+    }
+    else if (rand() % criticalPoint == 0){
+        cout << "Critical hit!" << endl;
+        damage = (((rand() % (level * 2) + (level * level)) * damageMultiplier) * 2) * 2;
+        cout << "You did " << damage << " point(s) of damage." << endl << endl;
+        return damage;
+    }
+    else{
+    	cout << "Hit!" << endl;
+        damage = ((rand() % (level * 2) + (level * level)) * damageMultiplier) * 2;
+        cout << "You did " << damage << " point(s) of damage." << endl << endl;
+        return damage;
+    }
 }
 
 Wizard::Wizard(string name, string characterType) : Character::Character(name, characterType){
@@ -57,6 +82,20 @@ Wizard::Wizard(string name, string characterType) : Character::Character(name, c
 	specialAttackName = "heal";
 }
 
+int Wizard::specialAttack(){
+	int damage = 0;
+	if (rand() % 3 == 0){
+		cout << "Heal failed!" << endl << endl;
+	}
+	else{
+		cout << "Healed " << maxHealth/2 << " points!"<< endl;
+		health += maxHealth/2;
+		if(health > maxHealth)
+			health = maxHealth;
+	}
+	return 0;
+}
+
 Looter::Looter(string name, string characterType) : Character::Character(name, characterType){
 	experience = 0;
 	level = 1;
@@ -67,6 +106,27 @@ Looter::Looter(string name, string characterType) : Character::Character(name, c
 	criticalPoint = 16;
 	damageMultiplier = 1.5;
 	specialAttackName = "quick-hit";
+}
+
+int Looter::specialAttack(){
+	int damage = 0;
+	int counter = 0;
+	damage = ((rand() % (level * 2) + (level * level)) * damageMultiplier) / 2;
+	do{
+		counter++;
+	}while(rand() % 2 == 0);
+	damage *= counter;
+	if(damage == 0)
+		damage = 1;
+	if(counter == 0){
+		cout << "Miss!" << endl;
+		damage = 0;
+	}
+	else{
+		cout << "Hit " << counter << " time(s)!" << endl;
+	}
+	cout << "You did " << damage << " point(s) of damage." << endl << endl;
+	return damage;
 }
 
 Character::~Character(){
@@ -204,65 +264,6 @@ int Character::primaryAttack(){
         cout << "You did " << damage << " point(s) of damage." << endl << endl;
         return damage;
     }
-}
-
-int Character::specialAttack(){
-	int damage = 0;
-	int counter = 0;
-	if(characterType == "warrior"){
-		if (rand() % 3 == 0){
-        	cout << "Miss!" << endl;
-        	cout << "You did 0 points of damage" << endl << endl;
-        	return damage;
-    	}
-    	else if (rand() % criticalPoint == 0){
-        	cout << "Critical hit!" << endl;
-        	damage = (((rand() % (level * 2) + (level * level)) * damageMultiplier) * 2) * 2;
-        	cout << "You did " << damage << " point(s) of damage." << endl << endl;
-        	return damage;
-    	}
-    	else{
-    		cout << "Hit!" << endl;
-        	damage = ((rand() % (level * 2) + (level * level)) * damageMultiplier) * 2;
-        	cout << "You did " << damage << " point(s) of damage." << endl << endl;
-        	return damage;
-    	}
-	}
-
-	else if(characterType == "wizard"){
-		if (rand() % 3 == 0){
-			cout << "Heal failed!" << endl << endl;
-		}
-		else{
-			cout << "Healed " << maxHealth/2 << " points!"<< endl;
-			health += maxHealth/2;
-			if(health > maxHealth)
-				health = maxHealth;
-		}
-		return 0;
-	}
-	else if(characterType == "looter"){
-		damage = ((rand() % (level * 2) + (level * level)) * damageMultiplier) / 2;
-		do{
-			counter++;
-		}while(rand() % 2 == 0);
-		damage *= counter;
-		if(damage == 0)
-			damage = 1;
-		if(counter == 0){
-			cout << "Miss!" << endl;
-			damage = 0;
-		}
-		else{
-			cout << "Hit " << counter << " time(s)!" << endl;
-		}
-		cout << "You did " << damage << " point(s) of damage." << endl << endl;
-		return damage;
-	}
-	else{
-		cout << "Conditional Error!" << endl;
-		return 0;
-	}
 }
 
 void Character::addItem(string item){
