@@ -18,7 +18,7 @@ Shop::Shop(){
 }
 
 void Shop::setShop(){
-	string tempItems [5] = {"potion", "strong-potion", "power-potion", "max-potion", "revive"};
+	string tempItems [5] = {"potion", "strong-potion", "stronger-potion", "strongest-potion", "revive"};
 	shopItems.insert(shopItems.end(), tempItems, tempItems+5);
 	int tempPrices [5] = {200, 400, 800, 2000, 5000};
 	shopPrices.insert(shopPrices.end(), tempPrices, tempPrices+5);
@@ -34,7 +34,7 @@ void Shop::shop(Character *character){
 		cout << "\t\t\t      WELCOME TO THE SHOP" << endl;
 		cout << "================================================================================" << endl;
 		for(int i = 0; i < shopItems.size(); i++)
-			cout << "\"" << shopItems[i] << "\" x" << shopPrices[i] << " gold      ";
+			cout << "\"" << shopItems[i] << "\" x" << shopPrices[i] << " gold     ";
 		cout << endl;
 		cout << "================================================================================" << endl << endl;
 

@@ -45,13 +45,14 @@ Warrior::Warrior(string name, string characterType) : Character::Character(name,
 	gold = 500;
 	alive = true;
 	criticalPoint = 20;
+	missPoint = 20;
 	damageMultiplier = 1.8;
 	specialAttackName = "power-attack";
 }
 
 int Warrior::specialAttack(){
 	int damage = 0;
-	if (rand() % 3 == 0){
+	if (rand() % 4 == 0){
         cout << "Miss!" << endl;
         cout << "You did 0 points of damage" << endl << endl;
         return damage;
@@ -78,6 +79,7 @@ Wizard::Wizard(string name, string characterType) : Character::Character(name, c
 	gold = 500;
 	alive = true;
 	criticalPoint = 12;
+	missPoint = 12;
 	damageMultiplier = 1.5;
 	specialAttackName = "heal";
 }
@@ -104,6 +106,7 @@ Looter::Looter(string name, string characterType) : Character::Character(name, c
 	gold = 1000;
 	alive = true;
 	criticalPoint = 16;
+	missPoint = 16;
 	damageMultiplier = 1.5;
 	specialAttackName = "quick-hit";
 }
@@ -242,12 +245,12 @@ void Character::printStats(){
 }
 
 void Character::printAttacks(){
-	cout << "\n\"attack\" \"" << specialAttackName <<  "\" \"inventory\" \"flee\"" << endl << endl << endl;
+	cout << "\n\"attack\"/\'a\' \"" << specialAttackName <<  "\"/\'s\' " << " \"inventory\"/\'i\' \"flee\"/\'f\'" << endl << endl << endl;
 }
 
 int Character::primaryAttack(){
     int damage = 0;
-    if (rand() % criticalPoint == 0){
+    if (rand() % missPoint == 0){
         cout << "Miss!" << endl;
         cout << "You did 0 points of damage." << endl << endl;
         return damage;
@@ -278,10 +281,10 @@ void Character::useItem(string item, int position){
 	else if(item == "strong-potion"){
 		healthAdded = 100;
 	}
-	else if(item == "power-potion"){
+	else if(item == "stronger-potion"){
 		healthAdded = 500;
 	}
-	else if(item == "max-potion"){
+	else if(item == "strongest-potion"){
 		healthAdded = maxHealth/2;
 	}
 	else if(item == "revive"){
@@ -293,7 +296,7 @@ void Character::useItem(string item, int position){
 		cout << "Input Error!" << endl;
 	}
 	health += healthAdded;
-	//items.erase(position);
+	items.erase(items.begin()+position);
 	if(health > maxHealth)
 		health = maxHealth;
 	cout << "You gained " << healthAdded << " health!" << endl << endl;
@@ -321,11 +324,11 @@ void Character::inventory(){
 			else{
 				cout << "So you would like to use 1 " << choice << "? \"yes\" or \"no\"" << endl << endl;
 				cout << name << ": ";
-				cin.ignore(10000,  '\n');
 				getline(cin, check);
 				cout << endl;
 				if(check == "yes"){
 					useItem(choice, i);
+					break;
 				}
 				else if(choice == "no"){
 					inventory();

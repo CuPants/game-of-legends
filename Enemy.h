@@ -61,6 +61,26 @@ public:
 	Hunter(string enemyType, int level);
 };
 
+class Knight: public Enemy{
+public:
+	Knight(string enemyType, int level);
+};
+
+class Orc: public Enemy{
+public:
+	Orc(string enemyType, int level);
+};
+
+class Guardian: public Enemy{
+public:
+	Guardian(string enemyType, int level);
+};
+
+class KingJack: public Enemy{
+public:
+	KingJack(string enemyType, int level);
+};
+
 class Tank: public Enemy{
 public:
 	Tank(string enemyType, int level);

@@ -63,6 +63,42 @@ Hunter::Hunter(string enemyType, int level) : Enemy::Enemy(enemyType, level){
 	damageMultiplier = 1.4;
 }
 
+Knight::Knight(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = level * level * level;
+	maxHealth = level * level * level;
+	alive = true;
+	criticalPoint = 8;
+	missPoint = 10;
+	damageMultiplier = 2.0;
+}
+
+Orc::Orc(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 3000;
+	maxHealth = 3000;
+	alive = true;
+	criticalPoint = 10;
+	missPoint = 10;
+	damageMultiplier = 2.4;
+}
+
+Guardian::Guardian(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 5000;
+	maxHealth = 5000;
+	alive = true;
+	criticalPoint = 6;
+	missPoint = 8;
+	damageMultiplier = 2.6;
+}
+
+KingJack::KingJack(string enemyType, int level) : Enemy::Enemy(enemyType, level){
+	health = 20000;
+	maxHealth = 20000;
+	alive = true;
+	criticalPoint = 3;
+	missPoint = 18;
+	damageMultiplier = 6;
+}
+
 Tank::Tank(string enemyType, int level) : Enemy::Enemy(enemyType, level){
 	health = level*level*16;
 	maxHealth = level*level*16;
@@ -114,7 +150,7 @@ Ghost::Ghost(string enemyType, int level) : Enemy::Enemy(enemyType, level){
 	alive = true;
 	criticalPoint = 24;
 	missPoint = 3;
-	damageMultiplier = 10;
+	damageMultiplier = 12;
 }
 
 Enemy::~Enemy(){

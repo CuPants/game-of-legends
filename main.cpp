@@ -85,16 +85,19 @@ void runGame(){
             fileIn.open(SAVES.c_str());
             fileIn >> fileCharacterType;
             if(fileCharacterType == "warrior"){
-                Warrior myWarrior(name, characterType);
-                character = &myWarrior;
+                // Warrior myWarrior(name, characterType);
+                // character = &myWarrior;
+                character = new Warrior(name, characterType);
             }
             else if(fileCharacterType == "wizard"){
-                Wizard myWizard(name, characterType);
-                character = &myWizard;
+                // Wizard myWizard(name, characterType);
+                // character = &myWizard;
+                character = new Wizard(name, characterType);
             }
             else if(fileCharacterType == "looter"){
-                Looter myLooter(name, characterType);
-                character = &myLooter;
+                // Looter myLooter(name, characterType);
+                // character = &myLooter;
+                character = new Looter(name, characterType);
             }
             else{
                 cout << "I'm sorry, there doesn't seem to be a saved file" << endl << endl;
@@ -195,16 +198,19 @@ void runGame(){
             cout << endl;
 
             if(characterType == "warrior"){
-                Warrior myWarrior(name, characterType);
-                character = &myWarrior;
+                // Warrior myWarrior(name, characterType);
+                // character = &myWarrior;
+                character = new Warrior(name, characterType);
             }
             else if(characterType == "wizard"){
-                Wizard myWizard(name, characterType);
-                character = &myWizard;
+                // Wizard myWizard(name, characterType);
+                // character = &myWizard;
+                character = new Wizard(name, characterType);
             }
             else if(characterType == "looter"){
-                Looter myLooter(name, characterType);
-                character = &myLooter;
+                // Looter myLooter(name, characterType);
+                // character = &myLooter;
+                character = new Looter(name, characterType);
             }
             else{
                 error();
@@ -251,30 +257,39 @@ void runGame(){
         village.printLocations();
         //Gets users location choice
         choice = village.selection(character->getName());
+        //Sends user home
         if(choice == "home"){
             home.intro(character);
         }
+        //User starts on the path
         else if(choice == "path"){
             path.firstLocation(character);
         }
+        //Opens users inventory
         else if(choice == "inventory"){
             character->inventory();
         }
+        //User enters the shop
         else if(choice == "shop"){
             shop.shop(character);
         }
+        //User travels to the river
         else if(choice == "river"){
             riverScene(character, firstPass, won);
         }
+        //User travels to the forest
         else if(choice == "forest"){
             forestScene(character, won);
         }
+        //User travels to the cliff
         else if(choice == "cliff"){
             cliffScene(character, won);
         }
+        //User travels to the mountain
         else if(choice == "mountain"){
             mountainScene(character, won);
         }
+        //Saves the users stats
         else if(choice == "save"){
             cout << "Are you sure you would like to save? This will overwrite any saved data.\n"
                  << "\"yes\" or \"no\"" << endl << endl;
@@ -291,6 +306,7 @@ void runGame(){
                 continue;
             }
         }
+        //Ends the program
         else if(choice == "quit"){
             cout << "Are you sure you would like to quit? All unsaved progress will be lost.\n"
                  << "\"yes\" or \"no\"" << endl << endl;

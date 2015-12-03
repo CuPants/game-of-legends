@@ -17,8 +17,11 @@ class Path{
 public:
 	Path();
 	void firstLocation(Character *character);
-	void secondLocation(Character *character);
-	void thirdLocation(Character *character);
+	void secondLocation(Character *character, string name);
+	void thirdLocation(Character *character, string name);
+	void fourthLocation(Character *character, string name);
+	void fifthLocation(Character *character, string name);
+	void sixthLocation(Character *character, string name);
 };
 
 #endif //PATH_H

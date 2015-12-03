@@ -25,7 +25,8 @@ void Battle::intro(Character *character, Enemy *enemy, bool &won){
 	cout << "Welcome to your first battle!" << endl << endl;
 	cout << "The battle screen is where you will fight all of your enemies. You know you are\n"
 		 << "in a battle when you are displayed with attack options and the stats of your\n"
-		 << "enemy." << endl << endl;
+		 << "enemy. Your attack damage will be displayed at the top of the screen above the\n"
+		 << "enemies stats. The enemies attack damage will be displayed below your stats." << endl << endl;
 	cout << "Press enter to begin, good luck!" << endl;
 	cin.get();
 	screen(character, enemy, won);
@@ -83,19 +84,19 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
 	bool foundRevive = false;
 	bool revived = false;
 	if(character->getHealth() > 0){
-		if(choice == "attack"){
+		if(choice == "attack" || choice == "a"){
 			validChoice = true;
 			enemy->setHealth(enemy->getHealth() - character->primaryAttack());
 		}
-		else if(choice == character->getSpecialAttackName()){
+		else if(choice == character->getSpecialAttackName() || choice == "s"){
 			validChoice = true;
 			enemy->setHealth(enemy->getHealth() - character->specialAttack());
 		}
-		else if(choice == "inventory"){
+		else if(choice == "inventory" || choice == "i"){
 			validChoice = true;
 			character->inventory();
 		}
-		else if(choice == "flee"){
+		else if(choice == "flee" || choice == "f"){
 			validChoice = true;
 			over = true;
 			won = false;

@@ -24,6 +24,7 @@ protected:
 	int gold;
 	bool alive;
 	int criticalPoint;
+	int missPoint;
 	float damageMultiplier;
 	string specialAttackName;
 	std::vector<string> shopItems;
@@ -64,7 +65,6 @@ public:
 	void addItem(string item);
 	void useItem(string item, int position);
 	void inventory();
-	//TO-DO: create a method to return the items vector, vector shouldn't be public
 	std::vector<string> items;
 };
 
