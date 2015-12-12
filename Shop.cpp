@@ -13,10 +13,14 @@
 
 using namespace std;
 
+//Default Constructor.
 Shop::Shop(){
 
 }
 
+/**
+ * Sets the items in the shop.
+ */
 void Shop::setShop(){
 	string tempItems [5] = {"potion", "strong-potion", "stronger-potion", "strongest-potion", "revive"};
 	shopItems.insert(shopItems.end(), tempItems, tempItems+5);
@@ -24,6 +28,11 @@ void Shop::setShop(){
 	shopPrices.insert(shopPrices.end(), tempPrices, tempPrices+5);
 }
 
+/**
+ * Brings the user to the shop and prompts them to buy something.
+ *
+ * @param character The player's character.
+ */
 void Shop::shop(Character *character){
 	string choice;
 	bool check;

@@ -13,10 +13,14 @@
 
 using namespace std;
 
+//Default constructor.
 Village::Village(){
 
 }
 
+/**
+ * Introduces the player to the village.\
+ */
 void Village::intro(){
 	cout << "Welcome to The Village! This will be your home from now on. Here you have access\n"
 		 << "to your home, the shop, and all of the primary locations. You can travel back\n"
@@ -28,12 +32,20 @@ void Village::intro(){
 	cin.get();
 }
 
+/**
+ * Sets the villages locations.
+ */
 void Village::setLocations(){
 	locations.clear();
 	string tempLocations [7] = {"home", "path", "inventory", "shop", "river", "save", "quit"};
 	locations.insert(locations.end(), tempLocations, tempLocations+7);
 }
 
+/**
+ * Updates the possible village locations based on the character's level.
+ *
+ * @param level The level of the character.
+ */
 void Village::updateLocations(int level){
 	if(level >= 10 && locations.size() < 8)
 		//locations.push_back("forest");
@@ -46,6 +58,9 @@ void Village::updateLocations(int level){
 		locations.insert(locations.begin()+7, "mountain");
 }
 
+/**
+ * Prints the possible village locations.
+ */
 void Village::printLocations(){
 	cout << "\t\t\t\t  - VILLAGE -" << endl;
 	cout << "================================================================================" << endl;
@@ -55,6 +70,12 @@ void Village::printLocations(){
 	cout << "================================================================================" << endl << endl;
 }
 
+/**
+ * Prompts the user to select a location.
+ *
+ * @param name The character's name.
+ * @return The location the player chose.
+ */
 string Village::selection(string name){
 	string choice;
 	bool check;

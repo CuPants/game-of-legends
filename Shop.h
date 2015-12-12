@@ -18,8 +18,11 @@ protected:
 	std::vector<string> shopItems;
 	std::vector<int> shopPrices;
 public:
+	//default constructor
 	Shop();
+	//sets the items in the shop
 	void setShop();
+	//player may buy items from the shop
 	void shop(Character *character);
 };
 

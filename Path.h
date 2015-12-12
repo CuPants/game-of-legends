@@ -15,12 +15,19 @@ using namespace std;
 
 class Path{
 public:
+	//default constructor
 	Path();
+	//first location on the path
 	void firstLocation(Character *character);
+	//second location on the path
 	void secondLocation(Character *character, string name);
+	//third location on the path
 	void thirdLocation(Character *character, string name);
+	//fourth location on the path
 	void fourthLocation(Character *character, string name);
+	//fifth location on the path
 	void fifthLocation(Character *character, string name);
+	//sixth location on the path
 	void sixthLocation(Character *character, string name);
 };
 

@@ -15,6 +15,7 @@
 
 using namespace std;
 
+//Default constructor
 Character::Character(){
 	name = "";
 	characterType = "";
@@ -28,15 +29,32 @@ Character::Character(){
 	srand(time(0));
 }
 
+/**
+ * Constructor. Sets all of the data members.
+ *
+ * @param name The name of the character.
+ * @param characterType The character's type.
+ */
 Character::Character(string name, string characterType){
 	this->name = name;
 	this->characterType = characterType;
 }
 
+/**
+ * Character superclass default specialAttack method.
+ *
+ * @return The exit status.
+ */
 int Character::specialAttack(){
 	return 0;
 }
 
+/**
+ * Constructor. Sets all of the data members.
+ *
+ * @param name The character's name.
+ * @param characterType The character's type.
+ */
 Warrior::Warrior(string name, string characterType) : Character::Character(name, characterType){
 	experience = 0;
 	level = 1;
@@ -50,6 +68,11 @@ Warrior::Warrior(string name, string characterType) : Character::Character(name,
 	specialAttackName = "power-attack";
 }
 
+/**
+ * The warrior subclasses special attack.
+ *
+ * @return The damage of the special attack.
+ */
 int Warrior::specialAttack(){
 	int damage = 0;
 	if (rand() % 4 == 0){
@@ -71,6 +94,12 @@ int Warrior::specialAttack(){
     }
 }
 
+/**
+ * Constructor. Sets all of the data members.
+ *
+ * @param name The character's name.
+ * @param characterType The character's type.
+ */
 Wizard::Wizard(string name, string characterType) : Character::Character(name, characterType){
 	experience = 0;
 	level = 1;
@@ -84,6 +113,11 @@ Wizard::Wizard(string name, string characterType) : Character::Character(name, c
 	specialAttackName = "heal";
 }
 
+/**
+ * The wizard subclasses special attack.
+ *
+ * @return The points healed by the attack.
+ */
 int Wizard::specialAttack(){
 	int damage = 0;
 	if (rand() % 3 == 0){
@@ -98,6 +132,12 @@ int Wizard::specialAttack(){
 	return 0;
 }
 
+/**
+ * Constructor. Sets all of the data members.
+ *
+ * @param name The character's name.
+ * @param characterType The character's type.
+ */
 Looter::Looter(string name, string characterType) : Character::Character(name, characterType){
 	experience = 0;
 	level = 1;
@@ -111,6 +151,11 @@ Looter::Looter(string name, string characterType) : Character::Character(name, c
 	specialAttackName = "quick-hit";
 }
 
+/**
+ * The looter subclasses special attack.
+ *
+ * @return The damage of the special attack.
+ */
 int Looter::specialAttack(){
 	int damage = 0;
 	int counter = 0;
@@ -132,46 +177,60 @@ int Looter::specialAttack(){
 	return damage;
 }
 
+//Default constructor
 Character::~Character(){
 
 }
 
+//Gets character's name.
 string Character::getName() const{
 	return name;
 }
-
+//Gets character's type.
 string Character::getCharacterType() const{
 	return characterType;
 }
-
+//Gets character's experience.
 int Character::getExperience() const{
 	return experience;
 }
-
+//Gets character's level.
 int Character::getLevel() const{
 	return level;
 }
-
+//Gets character's health.
 int Character::getHealth() const{
 	return health;
 }
-
+//Gets character's max health.
 int Character::getMaxHealth() const{
 	return maxHealth;
 }
-
+//Gets character's gold.
 int Character::getGold() const{
 	return gold;
 }
-
+//Gets character's state of life.
 bool Character::getAlive() const{
 	return alive;
 }
-
+//Gets character's special attack name
 string Character::getSpecialAttackName() const{
 	return specialAttackName;
 }
 
+/**
+ * Constructor. Sets all of the data members.
+ *
+ * @param characterType The character's type.
+ * @param name The character's name.
+ * @param experience The character's experience.
+ * @param level The character's level.
+ * @param health The character's health.
+ * @param maxHealth The character's max health.
+ * @param gold The character's gold.
+ * @param alive The character's state of life.
+ */
 void Character::setStats(string characterType, string name, int experience, int level, int health, int maxHealth, int gold, bool alive){
 	this->characterType = characterType;
 	this->name = name;
@@ -183,38 +242,44 @@ void Character::setStats(string characterType, string name, int experience, int 
 	this->alive = alive;
 }
 
+//Sets character's type.
 void Character::setCharacterType(string characterType){
 	this->characterType = characterType;
 }
-
+//Sets character's name.
 void Character::setName(string name){
 	this->name = name;
 }
-
+//Sets character's experience.
 void Character::setExperience(int experience){
 	this->experience = experience;
 }
-
+//Sets character's level.
 void Character::setLevel(int level){
 	this->level = level;
 }
-
+//Sets character's health.
 void Character::setHealth(int health){
 	this->health = health;
 }
-
+//Sets character's max health.
 void Character::setMaxHealth(int maxHealth){
 	this->maxHealth = maxHealth;
 }
-
+//Sets character's gold.
 void Character::setGold(int gold){
 	this->gold = gold;
 }
-
+//Sets character's state of life.
 void Character::setAlive(bool alive){
 	this->alive = alive;
 }
 
+/**
+ * Saves the current game state by outputting the character variables into a file.
+ *
+ * @param save The name of the saves file.
+ */
 void Character::saveState(string saves){
 	ofstream fileOut;
 	fileOut.open(saves.c_str());
@@ -237,6 +302,9 @@ void Character::saveState(string saves){
 	fileOut.close();
 }
 
+/**
+ * Printst the character stats banner.
+ */
 void Character::printStats(){
 	cout << "================================================================================" << endl;
 	cout << "NAME: " << name << " CHARACTER: " << characterType << " LEVEL: " << level << " HEALTH: "
@@ -244,10 +312,18 @@ void Character::printStats(){
 	cout << "================================================================================" << endl << endl;
 }
 
+/**
+ * Prints the character's possible attacks.
+ */
 void Character::printAttacks(){
 	cout << "\n\"attack\"/\'a\' \"" << specialAttackName <<  "\"/\'s\' " << " \"inventory\"/\'i\' \"flee\"/\'f\'" << endl << endl << endl;
 }
 
+/**
+ * The character's primary attack.
+ *
+ * @return The damage of the primary attack.
+ */
 int Character::primaryAttack(){
     int damage = 0;
     if (rand() % missPoint == 0){
@@ -269,10 +345,21 @@ int Character::primaryAttack(){
     }
 }
 
+/**
+ * Adds an item to the character's inventory.
+ *
+ * @param item The item to be added.
+ */
 void Character::addItem(string item){
 	items.push_back(item);
 }
 
+/**
+ * Uses an item to the character's inventory.
+ *
+ * @param item The item to be added.
+ * @param position The location of the item in the character's inventory
+ */
 void Character::useItem(string item, int position){
 	int healthAdded;
 	if(item == "potion"){
@@ -302,6 +389,9 @@ void Character::useItem(string item, int position){
 	cout << "You gained " << healthAdded << " health!" << endl << endl;
 }
 
+/**
+ * Prints the character's inventory and prompts player to use an item.
+ */
 void Character::inventory(){
 	string choice;
 	string check;

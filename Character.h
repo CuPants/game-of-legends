@@ -36,7 +36,7 @@ public:
 	Character(string, string);
 	//destructor
 	~Character();
-	//accessor methods
+	//get methods
 	string getName() const;
 	string getCharacterType() const;
 	int getExperience() const;
@@ -46,7 +46,7 @@ public:
 	int getGold() const;
 	bool getAlive() const;
 	string getSpecialAttackName() const;
-	//mutator methods
+	//set methods
 	void setStats(string, string, int, int, int, int, int, bool);
 	void setName(string);
 	void setCharacterType(string);
@@ -56,30 +56,41 @@ public:
 	void setMaxHealth(int);
 	void setGold(int);
 	void setAlive(bool);
-	//action methods
+	//saves the player stats
 	void saveState(const string SAVES);
+	//prints the player stats
 	void printStats();
+	//prints the players attack options
 	void printAttacks();
+	//executes the players primary attack
 	int primaryAttack();
+	//characters special attack
 	virtual int specialAttack();
+	//adds item to inventory
 	void addItem(string item);
+	//uses an item from the inventory
 	void useItem(string item, int position);
+	//displays the inventory
 	void inventory();
+	//items vector
 	std::vector<string> items;
 };
 
+//Warrior subclass.
 class Warrior: public Character{
 public:
 	Warrior(string name, string characterType);
 	int specialAttack();
 };
 
+//Wizard sublcass.
 class Wizard: public Character{
 public:
 	Wizard(string name, string characterType);
 	int specialAttack();
 };
 
+//Looter subclass.
 class Looter: public Character{
 public:
 	Looter(string name, string characterType);

@@ -14,10 +14,16 @@
 
 using namespace std;
 
+//Default constructor.
 Path::Path(){
 
 }
 
+/**
+ * Runs the first path scene.
+ *
+ * @param character The player's character.
+ */
 void Path::firstLocation(Character *character){
 	Enemy *enemy;
 	Jack jack("jack", 3);
@@ -85,6 +91,7 @@ void Path::firstLocation(Character *character){
 					cout << "\nJack: I'm sorry but I actually can't let you do that." << endl << endl;
 					cout << "Jack draws a sword on you, you have no choice but to fight back!" << endl;
 					cout << "Press enter to begin the fight." << endl;
+					cin.get();
 					battle.screen(character, enemy, won);
 					if(won){
 						cout << "Jack: Stop stop, you win! You have no idea what you've just done. But there's no\n"
@@ -105,6 +112,12 @@ void Path::firstLocation(Character *character){
 	}while(choice != "yes" && choice != "no");
 }
 
+/**
+ * Runs the second path scene.
+ *
+ * @param character The player's character.
+ * @param name The name the player told Jack.
+ */
 void Path::secondLocation(Character *character, string name){
 	Enemy *enemy;
 	Thug thug("thug", 5);
@@ -156,6 +169,12 @@ void Path::secondLocation(Character *character, string name){
 	}while(choice != "yes" && choice != "no");
 }
 
+/**
+ * Runs the third path scene.
+ *
+ * @param character The player's character.
+ * @param name The name the player told Jack.
+ */
 void Path::thirdLocation(Character *character, string name){
 	Enemy *enemy;
 	Knight knight1("knight", 10);
@@ -200,6 +219,12 @@ void Path::thirdLocation(Character *character, string name){
 	}while(choice != "yes" && choice != "no");
 }
 
+/**
+ * Runs the fourth path scene.
+ *
+ * @param character The player's character.
+ * @param name The name the player told Jack.
+ */
 void Path::fourthLocation(Character *character, string name){
 	Enemy *enemy;
 	Orc orc("orc", 17);
@@ -235,6 +260,12 @@ void Path::fourthLocation(Character *character, string name){
 	}while(choice != "yes" && choice != "no");
 }
 
+/**
+ * Runs the fifth path scene.
+ *
+ * @param character The player's character.
+ * @param name The name the player told Jack.
+ */
 void Path::fifthLocation(Character *character, string name){
 	Enemy *enemy;
 	Guardian guardian1("guardian", 20);
@@ -283,6 +314,12 @@ void Path::fifthLocation(Character *character, string name){
 	}while(choice != "yes" && choice != "no");
 }
 
+/**
+ * Runs the sixth path scene.
+ *
+ * @param character The player's character.
+ * @param name The name the player told Jack.
+ */
 void Path::sixthLocation(Character *character, string name){
 	Enemy *enemy;
 	KingJack jack("jack", 25);

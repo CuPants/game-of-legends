@@ -296,7 +296,7 @@ void runGame(){
             cout << character->getName() << ": ";
             getline(cin, choice);
             if(choice == "yes"){
-                cout << "\nSaving, please wait..." << endl << endl;
+                cout << "\nSaving, please wait..." << endl;
                 this_thread::sleep_for (std::chrono::seconds(2));
                 character->saveState(SAVES);
                 cout << "Game saved. press enter to continue." << endl;

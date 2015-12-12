@@ -17,10 +17,18 @@
 
 using namespace std;
 
+//Default Constructor
 Battle::Battle(){
 
 }
 
+/**
+ * Introduces and explains how battles work.
+ *
+ * @param character The player's character.
+ * @param enemy The enemy the player will be battling.
+ * @param won Whether the player has won or lost the battle.
+ */
 void Battle::intro(Character *character, Enemy *enemy, bool &won){
 	cout << "Welcome to your first battle!" << endl << endl;
 	cout << "The battle screen is where you will fight all of your enemies. You know you are\n"
@@ -32,6 +40,13 @@ void Battle::intro(Character *character, Enemy *enemy, bool &won){
 	screen(character, enemy, won);
 }
 
+/**
+ * Displays the battle screen, player's stats, and enemy's stats.
+ *
+ * @param character The player's character.
+ * @param enemy The enemy the player will be battling.
+ * @param won Whether the player has won or lost the battle.
+ */
 void Battle::screen(Character *character, Enemy *enemy, bool &won){
 	string choice;
 	locale loc;
@@ -76,6 +91,16 @@ void Battle::screen(Character *character, Enemy *enemy, bool &won){
 	}while(!over);
 }
 
+/**
+ * Prompts the player to select an attack.
+ *
+ * @param character The player's character.
+ * @param enemy The enemy the player will be battling.
+ * @param choice The players attack choice.
+ * @param validChoice Whether the choice was valid or not.
+ * @param over Whether the battle is over or not.
+ * @param won Whether the player has won or lost the battle.
+ */
 void Battle::attackChoice(Character *character, Enemy *enemy, string choice, bool &validChoice, bool &over, bool &won){
 	Home home;
 	locale loc;
@@ -130,8 +155,10 @@ void Battle::attackChoice(Character *character, Enemy *enemy, string choice, boo
     	cout << enemy->getEnemyType() << " died." << endl;
 		cout << "You won the battle!" << endl << endl;
 		xp = sqrt(enemy->getLevel()*1000);
+		if(character->getLevel() < enemy->getLevel())
+			xp *= 2;
 		if(character->getCharacterType() == "looter")
-			gold = enemy->getLevel()*70;
+			gold = enemy->getLevel()*80;
 		else
 			gold = enemy->getLevel()*40;
 		character->setExperience(character->getExperience() + xp);

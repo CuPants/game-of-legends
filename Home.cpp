@@ -14,10 +14,16 @@
 
 using namespace std;
 
+//Default constructor.
 Home::Home(){
 
 }
 
+/**
+ * Introduces the home to the player.
+ *
+ * @param character The player's character.
+ */
 void Home::intro(Character *character){
 	string choice;
 	cout << "Hi " << character->getName() << ", Welcome home!" << endl << endl;
@@ -41,6 +47,11 @@ void Home::intro(Character *character){
 	}
 }
 
+/**
+ * Rests and heals the player's character.
+ *
+ * @param character The player's character.
+ */
 void Home::rest(Character *character){
 	int restTime;
 	if(character->getAlive())

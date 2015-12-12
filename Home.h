@@ -15,8 +15,11 @@ using namespace std;
 
 class Home{
 public:
+	//default constructor
 	Home();
+	//text that appears when player returns home
 	void intro(Character *character);
+	//refills the players health
 	void rest(Character *character);
 };
 

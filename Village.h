@@ -17,11 +17,17 @@ class Village{
 protected:
 	std::vector<string> locations;
 public:
+	//default constructor
 	Village();
+	//introduces the village
 	void intro();
+	//sets the village locations
 	void setLocations();
+	//updates the village locations
 	void updateLocations(int level);
+	//prints the village locations
 	void printLocations();
+	//the user msy select a location
 	string selection(string name);
 };
 
